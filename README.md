@@ -29,3 +29,7 @@ sed 's/......Cogent3.src.//g' alignment.json > alignment_stripped.json
 ```
 ### Visualise  
 
+`demo.ipynb` used to generate interactive DAGS:
+- `pyvis_graph_menu.html` all but built-ins, slower
+- `pyvis_graph_selected_cls.html` focal core.alignment classes only (faster)_
+

@@ -1,0 +1,627 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script>function neighbourhoodHighlight(params) {
+  // console.log("in nieghbourhoodhighlight");
+  allNodes = nodes.get({ returnType: "Object" });
+  // originalNodes = JSON.parse(JSON.stringify(allNodes));
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    highlightActive = true;
+    var i, j;
+    var selectedNode = params.nodes[0];
+    var degrees = 2;
+
+    // mark all nodes as hard to read.
+    for (let nodeId in allNodes) {
+      // nodeColors[nodeId] = allNodes[nodeId].color;
+      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
+      if (allNodes[nodeId].hiddenLabel === undefined) {
+        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+    var connectedNodes = network.getConnectedNodes(selectedNode);
+    var allConnectedNodes = [];
+
+    // get the second degree nodes
+    for (i = 1; i < degrees; i++) {
+      for (j = 0; j < connectedNodes.length; j++) {
+        allConnectedNodes = allConnectedNodes.concat(
+          network.getConnectedNodes(connectedNodes[j])
+        );
+      }
+    }
+
+    // all second degree nodes get a different color and their label back
+    for (i = 0; i < allConnectedNodes.length; i++) {
+      // allNodes[allConnectedNodes[i]].color = "pink";
+      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
+      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[allConnectedNodes[i]].label =
+          allNodes[allConnectedNodes[i]].hiddenLabel;
+        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // all first degree nodes get their own color and their label back
+    for (i = 0; i < connectedNodes.length; i++) {
+      // allNodes[connectedNodes[i]].color = undefined;
+      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
+      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[connectedNodes[i]].label =
+          allNodes[connectedNodes[i]].hiddenLabel;
+        allNodes[connectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // the main node gets its own color and its label back.
+    // allNodes[selectedNode].color = undefined;
+    allNodes[selectedNode].color = nodeColors[selectedNode];
+    if (allNodes[selectedNode].hiddenLabel !== undefined) {
+      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+      allNodes[selectedNode].hiddenLabel = undefined;
+    }
+  } else if (highlightActive === true) {
+    // console.log("highlightActive was true");
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      // allNodes[nodeId].color = "purple";
+      allNodes[nodeId].color = nodeColors[nodeId];
+      // delete allNodes[nodeId].color;
+      if (allNodes[nodeId].hiddenLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+        allNodes[nodeId].hiddenLabel = undefined;
+      }
+    }
+    highlightActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    // console.log("Nothing was selected");
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        // allNodes[nodeId].color = {};
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function filterHighlight(params) {
+  allNodes = nodes.get({ returnType: "Object" });
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    filterActive = true;
+    let selectedNodes = params.nodes;
+
+    // hiding all nodes and saving the label
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = true;
+      if (allNodes[nodeId].savedLabel === undefined) {
+        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+
+    for (let i=0; i < selectedNodes.length; i++) {
+      allNodes[selectedNodes[i]].hidden = false;
+      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
+        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
+        allNodes[selectedNodes[i]].savedLabel = undefined;
+      }
+    }
+
+  } else if (filterActive === true) {
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = false;
+      if (allNodes[nodeId].savedLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
+        allNodes[nodeId].savedLabel = undefined;
+      }
+    }
+    filterActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function selectNode(nodes) {
+  network.selectNodes(nodes);
+  neighbourhoodHighlight({ nodes: nodes });
+  return nodes;
+}
+
+function selectNodes(nodes) {
+  network.selectNodes(nodes);
+  filterHighlight({nodes: nodes});
+  return nodes;
+}
+
+function highlightFilter(filter) {
+  let selectedNodes = []
+  let selectedProp = filter['property']
+  if (filter['item'] === 'node') {
+    let allNodes = nodes.get({ returnType: "Object" });
+    for (let nodeId in allNodes) {
+      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
+        selectedNodes.push(nodeId)
+      }
+    }
+  }
+  else if (filter['item'] === 'edge'){
+    let allEdges = edges.get({returnType: 'object'});
+    // check if the selected property exists for selected edge and select the nodes connected to the edge
+    for (let edge in allEdges) {
+      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
+        selectedNodes.push(allEdges[edge]['from'])
+        selectedNodes.push(allEdges[edge]['to'])
+      }
+    }
+  }
+  selectNodes(selectedNodes)
+}</script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+            
+            
+            
+            
+            
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.0.0-rc.4/css/tom-select.min.css" integrity="sha512-43fHB3GLgZfz8QXl1RPQ8O66oIgv3po9cJ5erMt1c4QISq9dYb195T3vr5ImnJPXuVroKcGBPXBFKETW8jrPNQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.0.0-rc.4/js/tom-select.complete.js" integrity="sha512-jeF9CfnvzDiw9G9xiksVjxR2lib44Gnovvkv+3CgCG6NXCD4gqlA5nDAVW5WjpA+i+/zKsUWV5xNEbW1X/HH0Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+              <div id="filter-menu" class="card-header">
+                <div class="row no-gutters">
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'item')"
+                            id="select-item"
+                        >
+                        <option value="">Select a network item</option>
+                        <option value="edge">edge</option>
+                        <option value="node">node</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="updateFilter(value, 'property')"
+                            id="select-property"
+                        >
+                        <option value="">Select a property...</option>
+                    </select>
+                  </div>
+                  <div class="col-3 pb-2">
+                    <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="select-value"
+                        >
+                        <option value="">Select value(s)...</option>
+                    </select>
+                  </div>
+                  <div class="col-1 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="highlightFilter(filter);">Filter</button>
+                  </div>
+                  <div class="col-2 pb-2">
+                    <button type="button" class="btn btn-primary btn-block" onclick="clearFilter(true)">Reset Selection</button>
+                  </div>
+                </div>
+              </div>
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+                  // explicitly using onItemAdd and this function as we need to save multiple values
+                  let updateValueFilter = function() {
+                      return function () {
+                      filter['value'].push(arguments[0])
+                      }
+                  }
+
+                  let valueControl = new TomSelect("#select-value",{
+                      maxItems: null,
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: updateValueFilter()
+                  });
+
+                  let addValues = function() {
+                      return function () {
+                          // clear the current value options and add the selected attribute values
+                          // tom-select handles duplicates
+                          let selectedProperty = arguments[0];
+                          valueControl.clear();
+                          valueControl.clearOptions();
+                          filter['value'] = []
+                          if (filter['item'] === 'node') {
+                              for (let each in allNodes) {
+                                  valueControl.addOption({
+                                      id:allNodes[each][selectedProperty],
+                                      title:allNodes[each][selectedProperty]
+                                  })
+                              }
+                          }
+                          else if (filter['item'] === 'edge') {
+                              for (let each in allEdges) {
+                                  valueControl.addOption({
+                                      id:allEdges[each][selectedProperty],
+                                      title:allEdges[each][selectedProperty]
+                                  })
+                              }
+                          }
+                      }
+                  };
+
+                  let propControl = new TomSelect("#select-property",{
+                      valueField: 'id',
+                      labelField: 'title',
+                      searchField: 'title',
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addValues()
+                  });
+
+                  let addProperties = function() {
+                      return function () {
+                          // loops through the selected network item and adds the attributes to dropdown
+                          // tom-select handles duplicates
+                          clearFilter(false)
+                          if (arguments[0] === 'edge') {
+                              for (let each in allEdges) {
+                                  if (allEdges.hasOwnProperty(each)) {
+                                      for (let eachProp in allEdges[each]) {
+                                          if (allEdges[each].hasOwnProperty(eachProp)) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                          else if (arguments[0] === 'node') {
+                              for (let each in allNodes) {
+                                  if (allNodes.hasOwnProperty(each)) {
+                                      for (let eachProp in allNodes[each]) {
+                                          if (allNodes[each].hasOwnProperty(eachProp)
+                                              && (eachProp !== 'hidden' && eachProp !== 'savedLabel'
+                                                  && eachProp !== 'hiddenLabel')) {
+                                              propControl.addOption({id: eachProp, title: eachProp})
+
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  };
+
+                  let itemControl = new TomSelect("#select-item",{
+                      create: false,
+                      sortField:{
+                          field: "text",
+                          direction: "asc"
+                      },
+                      onItemAdd: addProperties()
+                  });
+
+                  function clearFilter(reset) {
+                      // utility function to clear all the selected filter options
+                      // if reset is set to true, the existing filter will be removed
+                      // else, only the dropdown options are cleared
+                      propControl.clear();
+                      propControl.clearOptions();
+                      valueControl.clear();
+                      valueControl.clearOptions();
+                      filter = {
+                          item : '',
+                          property : '',
+                          value : []
+                      }
+                      if (reset) {
+                          itemControl.clear();
+                          filterHighlight({nodes: []})
+                      }
+                  }
+
+                  function updateFilter(value, key) {
+                      // key could be 'item' or 'property' and value is as selected in dropdown
+                      filter[key] = value
+                  }
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.__init__", "label": "cogent3.core.alignment._SequenceCollectionBase.__init__", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase._set_additional_attributes", "label": "cogent3.core.alignment._SequenceCollectionBase._set_additional_attributes", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.__str__", "label": "cogent3.core.alignment._SequenceCollectionBase.__str__", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.to_dict", "label": "cogent3.core.alignment._SequenceCollectionBase.to_dict", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.copy", "label": "cogent3.core.alignment._SequenceCollectionBase.copy", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.deepcopy", "label": "cogent3.core.alignment._SequenceCollectionBase.deepcopy", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.seqs", "label": "cogent3.core.alignment._SequenceCollectionBase.seqs", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.iter_seqs", "label": "cogent3.core.alignment._SequenceCollectionBase.iter_seqs", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.get_seq_indices", "label": "cogent3.core.alignment._SequenceCollectionBase.get_seq_indices", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.get_similar.f", "label": "cogent3.core.alignment._SequenceCollectionBase.get_similar.f", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.get_seq_indices.new_f", "label": "cogent3.core.alignment._SequenceCollectionBase.get_seq_indices.new_f", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.get_similar.m", "label": "cogent3.core.alignment._SequenceCollectionBase.get_similar.m", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.take_seqs_if", "label": "cogent3.core.alignment._SequenceCollectionBase.take_seqs_if", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.take_seqs", "label": "cogent3.core.alignment._SequenceCollectionBase.take_seqs", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.iter_selected", "label": "cogent3.core.alignment._SequenceCollectionBase.iter_selected", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.get_identical_sets", "label": "cogent3.core.alignment._SequenceCollectionBase.get_identical_sets", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.get_identical_sets.reduced", "label": "cogent3.core.alignment._SequenceCollectionBase.get_identical_sets.reduced", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.get_similar", "label": "cogent3.core.alignment._SequenceCollectionBase.get_similar", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.to_phylip", "label": "cogent3.core.alignment._SequenceCollectionBase.to_phylip", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.is_ragged", "label": "cogent3.core.alignment._SequenceCollectionBase.is_ragged", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.to_json", "label": "cogent3.core.alignment._SequenceCollectionBase.to_json", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.to_rich_dict", "label": "cogent3.core.alignment._SequenceCollectionBase.to_rich_dict", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.to_fasta", "label": "cogent3.core.alignment._SequenceCollectionBase.to_fasta", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.add_seqs", "label": "cogent3.core.alignment._SequenceCollectionBase.add_seqs", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.write", "label": "cogent3.core.alignment._SequenceCollectionBase.write", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.get_translation", "label": "cogent3.core.alignment._SequenceCollectionBase.get_translation", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.trim_stop_codons", "label": "cogent3.core.alignment._SequenceCollectionBase.trim_stop_codons", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.has_terminal_stop", "label": "cogent3.core.alignment._SequenceCollectionBase.has_terminal_stop", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.degap", "label": "cogent3.core.alignment._SequenceCollectionBase.degap", "shape": "dot", "size": 10}, {"group": "SequenceCollection", "id": "cogent3.core.alignment.SequenceCollection.__init__", "label": "cogent3.core.alignment.SequenceCollection.__init__", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.get_lengths", "label": "cogent3.core.alignment._SequenceCollectionBase.get_lengths", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.counts_per_seq", "label": "cogent3.core.alignment._SequenceCollectionBase.counts_per_seq", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.get_seq", "label": "cogent3.core.alignment._SequenceCollectionBase.get_seq", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.counts", "label": "cogent3.core.alignment._SequenceCollectionBase.counts", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.omit_gap_seqs", "label": "cogent3.core.alignment._SequenceCollectionBase.omit_gap_seqs", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.omit_gap_runs", "label": "cogent3.core.alignment._SequenceCollectionBase.omit_gap_runs", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.to_dna", "label": "cogent3.core.alignment._SequenceCollectionBase.to_dna", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.to_moltype", "label": "cogent3.core.alignment._SequenceCollectionBase.to_moltype", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.to_rna", "label": "cogent3.core.alignment._SequenceCollectionBase.to_rna", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.to_protein", "label": "cogent3.core.alignment._SequenceCollectionBase.to_protein", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.reverse_complement", "label": "cogent3.core.alignment._SequenceCollectionBase.reverse_complement", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.rc", "label": "cogent3.core.alignment._SequenceCollectionBase.rc", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.pad_seqs", "label": "cogent3.core.alignment._SequenceCollectionBase.pad_seqs", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.apply_pssm", "label": "cogent3.core.alignment._SequenceCollectionBase.apply_pssm", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.probs_per_seq", "label": "cogent3.core.alignment._SequenceCollectionBase.probs_per_seq", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.entropy_per_seq", "label": "cogent3.core.alignment._SequenceCollectionBase.entropy_per_seq", "shape": "dot", "size": 10}, {"group": "SequenceCollection", "id": "cogent3.core.alignment.SequenceCollection.add_feature", "label": "cogent3.core.alignment.SequenceCollection.add_feature", "shape": "dot", "size": 10}, {"group": "SequenceCollection", "id": "cogent3.core.alignment.SequenceCollection.make_feature", "label": "cogent3.core.alignment.SequenceCollection.make_feature", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.take_positions_if", "label": "cogent3.core.alignment.AlignmentI.take_positions_if", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.take_positions", "label": "cogent3.core.alignment.AlignmentI.take_positions", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.get_position_indices", "label": "cogent3.core.alignment.AlignmentI.get_position_indices", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.probs_per_pos", "label": "cogent3.core.alignment.AlignmentI.probs_per_pos", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.counts_per_pos", "label": "cogent3.core.alignment.AlignmentI.counts_per_pos", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.entropy_per_pos", "label": "cogent3.core.alignment.AlignmentI.entropy_per_pos", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.probs_per_seq", "label": "cogent3.core.alignment.AlignmentI.probs_per_seq", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.counts_per_seq", "label": "cogent3.core.alignment.AlignmentI.counts_per_seq", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.entropy_per_seq", "label": "cogent3.core.alignment.AlignmentI.entropy_per_seq", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.get_gap_array", "label": "cogent3.core.alignment.AlignmentI.get_gap_array", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.to_type", "label": "cogent3.core.alignment.AlignmentI.to_type", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.count_gaps_per_pos", "label": "cogent3.core.alignment.AlignmentI.count_gaps_per_pos", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.count_gaps_per_seq", "label": "cogent3.core.alignment.AlignmentI.count_gaps_per_seq", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.omit_bad_seqs", "label": "cogent3.core.alignment.AlignmentI.omit_bad_seqs", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI._repr_html_", "label": "cogent3.core.alignment.AlignmentI._repr_html_", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.to_html", "label": "cogent3.core.alignment.AlignmentI.to_html", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI._get_raw_pretty", "label": "cogent3.core.alignment.AlignmentI._get_raw_pretty", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.to_pretty", "label": "cogent3.core.alignment.AlignmentI.to_pretty", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.to_pretty.make_line", "label": "cogent3.core.alignment.AlignmentI.to_pretty.make_line", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.variable_positions", "label": "cogent3.core.alignment.AlignmentI.variable_positions", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.iter_positions", "label": "cogent3.core.alignment.AlignmentI.iter_positions", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.quick_tree", "label": "cogent3.core.alignment.AlignmentI.quick_tree", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.distance_matrix", "label": "cogent3.core.alignment.AlignmentI.distance_matrix", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.sample", "label": "cogent3.core.alignment.AlignmentI.sample", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.information_plot", "label": "cogent3.core.alignment.AlignmentI.information_plot", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.seqlogo", "label": "cogent3.core.alignment.AlignmentI.seqlogo", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.get_translation", "label": "cogent3.core.alignment.AlignmentI.get_translation", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.trim_stop_codons", "label": "cogent3.core.alignment.AlignmentI.trim_stop_codons", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.add_from_ref_aln", "label": "cogent3.core.alignment.ArrayAlignment.add_from_ref_aln", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.replace_seqs", "label": "cogent3.core.alignment.ArrayAlignment.replace_seqs", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.deepcopy", "label": "cogent3.core.alignment.ArrayAlignment.deepcopy", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.no_degenerates", "label": "cogent3.core.alignment.ArrayAlignment.no_degenerates", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.filtered", "label": "cogent3.core.alignment.ArrayAlignment.filtered", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.omit_gap_pos", "label": "cogent3.core.alignment.ArrayAlignment.omit_gap_pos", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase", "label": "cogent3.core.alignment._SequenceCollectionBase", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.named_seqs", "label": "cogent3.core.alignment._SequenceCollectionBase.named_seqs", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.annotation_db", "label": "cogent3.core.alignment._SequenceCollectionBase.annotation_db", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.__eq__", "label": "cogent3.core.alignment._SequenceCollectionBase.__eq__", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.__ne__", "label": "cogent3.core.alignment._SequenceCollectionBase.__ne__", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.__lt__", "label": "cogent3.core.alignment._SequenceCollectionBase.__lt__", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.to_nexus", "label": "cogent3.core.alignment._SequenceCollectionBase.to_nexus", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.num_seqs", "label": "cogent3.core.alignment._SequenceCollectionBase.num_seqs", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.__add__", "label": "cogent3.core.alignment._SequenceCollectionBase.__add__", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.__len__", "label": "cogent3.core.alignment._SequenceCollectionBase.__len__", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.get_ambiguous_positions", "label": "cogent3.core.alignment._SequenceCollectionBase.get_ambiguous_positions", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.with_modified_termini", "label": "cogent3.core.alignment._SequenceCollectionBase.with_modified_termini", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.get_motif_probs", "label": "cogent3.core.alignment._SequenceCollectionBase.get_motif_probs", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.strand_symmetry", "label": "cogent3.core.alignment._SequenceCollectionBase.strand_symmetry", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.dotplot", "label": "cogent3.core.alignment._SequenceCollectionBase.dotplot", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.rename_seqs", "label": "cogent3.core.alignment._SequenceCollectionBase.rename_seqs", "shape": "dot", "size": 10}, {"group": "_SequenceCollectionBase", "id": "cogent3.core.alignment._SequenceCollectionBase.set_repr_policy", "label": "cogent3.core.alignment._SequenceCollectionBase.set_repr_policy", "shape": "dot", "size": 10}, {"group": "SequenceCollection", "id": "cogent3.core.alignment.SequenceCollection.copy_annotations", "label": "cogent3.core.alignment.SequenceCollection.copy_annotations", "shape": "dot", "size": 10}, {"group": "SequenceCollection", "id": "cogent3.core.alignment.SequenceCollection.annotate_from_gff", "label": "cogent3.core.alignment.SequenceCollection.annotate_from_gff", "shape": "dot", "size": 10}, {"group": "SequenceCollection", "id": "cogent3.core.alignment.SequenceCollection.get_features", "label": "cogent3.core.alignment.SequenceCollection.get_features", "shape": "dot", "size": 10}, {"group": "SequenceCollection", "id": "cogent3.core.alignment.SequenceCollection.distance_matrix", "label": "cogent3.core.alignment.SequenceCollection.distance_matrix", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.alignment_quality", "label": "cogent3.core.alignment.AlignmentI.alignment_quality", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI", "label": "cogent3.core.alignment.AlignmentI", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.get_position_indices.new_f", "label": "cogent3.core.alignment.AlignmentI.get_position_indices.new_f", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.iupac_consensus", "label": "cogent3.core.alignment.AlignmentI.iupac_consensus", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.majority_consensus", "label": "cogent3.core.alignment.AlignmentI.majority_consensus", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.no_degenerates", "label": "cogent3.core.alignment.AlignmentI.no_degenerates", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.omit_gap_pos", "label": "cogent3.core.alignment.AlignmentI.omit_gap_pos", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.matching_ref", "label": "cogent3.core.alignment.AlignmentI.matching_ref", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.sliding_windows", "label": "cogent3.core.alignment.AlignmentI.sliding_windows", "shape": "dot", "size": 10}, {"group": "AlignmentI", "id": "cogent3.core.alignment.AlignmentI.coevolution", "label": "cogent3.core.alignment.AlignmentI.coevolution", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.__init__", "label": "cogent3.core.alignment.ArrayAlignment.__init__", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment._set_additional_attributes", "label": "cogent3.core.alignment.ArrayAlignment._set_additional_attributes", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment._get_positions", "label": "cogent3.core.alignment.ArrayAlignment._get_positions", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment", "label": "cogent3.core.alignment.ArrayAlignment", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.named_seqs", "label": "cogent3.core.alignment.ArrayAlignment.named_seqs", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.__iter__", "label": "cogent3.core.alignment.ArrayAlignment.__iter__", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.__getitem__", "label": "cogent3.core.alignment.ArrayAlignment.__getitem__", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment._coerce_seqs", "label": "cogent3.core.alignment.ArrayAlignment._coerce_seqs", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.get_sub_alignment", "label": "cogent3.core.alignment.ArrayAlignment.get_sub_alignment", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.__str__", "label": "cogent3.core.alignment.ArrayAlignment.__str__", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.__repr__", "label": "cogent3.core.alignment.ArrayAlignment.__repr__", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.iupac_consensus", "label": "cogent3.core.alignment.ArrayAlignment.iupac_consensus", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.sample", "label": "cogent3.core.alignment.ArrayAlignment.sample", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.get_gapped_seq", "label": "cogent3.core.alignment.ArrayAlignment.get_gapped_seq", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.get_degapped_relative_to", "label": "cogent3.core.alignment.ArrayAlignment.get_degapped_relative_to", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.to_moltype", "label": "cogent3.core.alignment.ArrayAlignment.to_moltype", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.get_identical_sets", "label": "cogent3.core.alignment.ArrayAlignment.get_identical_sets", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.counts_per_seq", "label": "cogent3.core.alignment.ArrayAlignment.counts_per_seq", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.get_position_indices", "label": "cogent3.core.alignment.ArrayAlignment.get_position_indices", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.get_position_indices.new_f", "label": "cogent3.core.alignment.ArrayAlignment.get_position_indices.new_f", "shape": "dot", "size": 10}, {"group": "ArrayAlignment", "id": "cogent3.core.alignment.ArrayAlignment.get_gap_array", "label": "cogent3.core.alignment.ArrayAlignment.get_gap_array", "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.__init__", "to": "cogent3.core.alignment._SequenceCollectionBase._set_additional_attributes", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.__str__", "to": "cogent3.core.alignment._SequenceCollectionBase.to_dict", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.copy", "to": "cogent3.core.alignment._SequenceCollectionBase.deepcopy", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.deepcopy", "to": "cogent3.core.alignment._SequenceCollectionBase.deepcopy", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.seqs", "to": "cogent3.core.alignment._SequenceCollectionBase.iter_seqs", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.get_seq_indices", "to": "cogent3.core.alignment._SequenceCollectionBase.get_similar.f", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.get_seq_indices.new_f", "to": "cogent3.core.alignment._SequenceCollectionBase.get_similar.f", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.get_similar.f", "to": "cogent3.core.alignment._SequenceCollectionBase.get_similar.m", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.take_seqs_if", "to": "cogent3.core.alignment._SequenceCollectionBase.take_seqs", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.take_seqs_if", "to": "cogent3.core.alignment._SequenceCollectionBase.get_seq_indices", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.iter_selected", "to": "cogent3.core.alignment._SequenceCollectionBase.iter_seqs", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.get_identical_sets", "to": "cogent3.core.alignment._SequenceCollectionBase.get_identical_sets.reduced", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.get_identical_sets", "to": "cogent3.core.alignment._SequenceCollectionBase.to_dict", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.get_similar", "to": "cogent3.core.alignment._SequenceCollectionBase.take_seqs_if", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.to_phylip", "to": "cogent3.core.alignment._SequenceCollectionBase.to_dict", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.to_phylip", "to": "cogent3.core.alignment._SequenceCollectionBase.is_ragged", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.to_json", "to": "cogent3.core.alignment._SequenceCollectionBase.to_rich_dict", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.to_fasta", "to": "cogent3.core.alignment._SequenceCollectionBase.to_dict", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.add_seqs", "to": "cogent3.core.alignment._SequenceCollectionBase.take_seqs", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.write", "to": "cogent3.core.alignment._SequenceCollectionBase.to_json", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.get_translation", "to": "cogent3.core.alignment._SequenceCollectionBase.trim_stop_codons", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.trim_stop_codons", "to": "cogent3.core.alignment._SequenceCollectionBase.has_terminal_stop", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.degap", "to": "cogent3.core.alignment.SequenceCollection.__init__", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.get_lengths", "to": "cogent3.core.alignment._SequenceCollectionBase.counts_per_seq", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.counts_per_seq", "to": "cogent3.core.alignment._SequenceCollectionBase.get_seq", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.counts", "to": "cogent3.core.alignment._SequenceCollectionBase.counts_per_seq", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.omit_gap_seqs", "to": "cogent3.core.alignment._SequenceCollectionBase.take_seqs_if", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.omit_gap_runs", "to": "cogent3.core.alignment._SequenceCollectionBase.take_seqs_if", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.to_dna", "to": "cogent3.core.alignment._SequenceCollectionBase.to_moltype", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.to_rna", "to": "cogent3.core.alignment._SequenceCollectionBase.to_moltype", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.to_protein", "to": "cogent3.core.alignment._SequenceCollectionBase.to_moltype", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.reverse_complement", "to": "cogent3.core.alignment._SequenceCollectionBase.rc", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.pad_seqs", "to": "cogent3.core.alignment.SequenceCollection.__init__", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.apply_pssm", "to": "cogent3.core.alignment._SequenceCollectionBase.is_ragged", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.probs_per_seq", "to": "cogent3.core.alignment._SequenceCollectionBase.counts_per_seq", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment._SequenceCollectionBase.entropy_per_seq", "to": "cogent3.core.alignment._SequenceCollectionBase.probs_per_seq", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.SequenceCollection.add_feature", "to": "cogent3.core.alignment.SequenceCollection.make_feature", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.take_positions_if", "to": "cogent3.core.alignment.AlignmentI.take_positions", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.take_positions_if", "to": "cogent3.core.alignment.AlignmentI.get_position_indices", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.probs_per_pos", "to": "cogent3.core.alignment.AlignmentI.counts_per_pos", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.entropy_per_pos", "to": "cogent3.core.alignment.AlignmentI.probs_per_pos", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.probs_per_seq", "to": "cogent3.core.alignment.AlignmentI.counts_per_seq", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.entropy_per_seq", "to": "cogent3.core.alignment.AlignmentI.probs_per_seq", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.get_gap_array", "to": "cogent3.core.alignment.AlignmentI.to_type", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.count_gaps_per_pos", "to": "cogent3.core.alignment.AlignmentI.get_gap_array", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.count_gaps_per_seq", "to": "cogent3.core.alignment.AlignmentI.get_gap_array", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.omit_bad_seqs", "to": "cogent3.core.alignment.AlignmentI.count_gaps_per_seq", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI._repr_html_", "to": "cogent3.core.alignment.AlignmentI.to_html", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.to_html", "to": "cogent3.core.alignment.AlignmentI._get_raw_pretty", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.to_pretty", "to": "cogent3.core.alignment.AlignmentI._get_raw_pretty", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.to_pretty", "to": "cogent3.core.alignment.AlignmentI.to_pretty.make_line", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.variable_positions", "to": "cogent3.core.alignment.AlignmentI.iter_positions", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.quick_tree", "to": "cogent3.core.alignment.AlignmentI.distance_matrix", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.quick_tree", "to": "cogent3.core.alignment.AlignmentI.sample", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.information_plot", "to": "cogent3.core.alignment.AlignmentI.entropy_per_pos", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.information_plot", "to": "cogent3.core.alignment.AlignmentI.count_gaps_per_pos", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.seqlogo", "to": "cogent3.core.alignment.AlignmentI.counts_per_pos", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.AlignmentI.get_translation", "to": "cogent3.core.alignment.AlignmentI.trim_stop_codons", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.ArrayAlignment.add_from_ref_aln", "to": "cogent3.core.alignment.AlignmentI.to_type", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.ArrayAlignment.replace_seqs", "to": "cogent3.core.alignment._SequenceCollectionBase.degap", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.ArrayAlignment.replace_seqs", "to": "cogent3.core.alignment.SequenceCollection.__init__", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.ArrayAlignment.deepcopy", "to": "cogent3.core.alignment.ArrayAlignment.deepcopy", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.ArrayAlignment.no_degenerates", "to": "cogent3.core.alignment.ArrayAlignment.filtered", "width": 1}, {"arrows": "to", "from": "cogent3.core.alignment.ArrayAlignment.omit_gap_pos", "to": "cogent3.core.alignment.ArrayAlignment.filtered", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
