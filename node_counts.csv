@@ -1,0 +1,1010 @@
+Node,Parent edges,Children edges,Group
+cogent3.core.alignment,0,2,Other alignment
+cogent3.core.alignment.AllowedCharacters,2,0,Other alignment
+cogent3.core.alignment.AllowedCharacters.just_chars,2,0,Other alignment
+cogent3.core.alignment.AllowedCharacters.not_chars,2,0,Other alignment
+cogent3.core.alignment.GapsOk.__init__,8,0,Other alignment
+cogent3.core.alignment.GapsOk._get_gap_frac,2,2,Other alignment
+collections.Counter.flatten,1,0,Other package
+collections.Counter,1,0,Other package
+cogent3.core.alignment.GapsOk.gap_frac_ok,1,1,Other alignment
+cogent3.core.alignment.GapsOk.gap_frac_not_ok,1,1,Other alignment
+cogent3.core.alignment.GapsOk.gap_run_ok,1,0,Other alignment
+cogent3.core.alignment.GapsOk.__call__,0,3,Other alignment
+cogent3.core.alignment.assign_sequential_names,5,0,Other alignment
+cogent3.core.alignment.coerce_to_string,2,0,Other alignment
+cogent3.util.warning.deprecated_args,4,0,Other Cogent3
+cogent3.core.alignment.seqs_from_array,0,1,Other alignment
+numpy.transpose,4,0,Other package
+cogent3.core.alignment.seqs_from_array_seqs,0,0,Other alignment
+cogent3.core.alignment.seqs_from_generic,0,0,Other alignment
+cogent3.core.alignment.seqs_from_fasta,0,1,Other alignment
+cogent3.parse.fasta.MinimalFastaParser,2,0,Other Cogent3
+cogent3.core.alignment.seqs_from_dict,0,1,Other alignment
+cogent3.util.misc.bytes_to_string,4,0,Other Cogent3
+cogent3.core.alignment.seqs_from_kv_pairs,0,1,Other alignment
+cogent3.core.alignment.seqs_from_aln,0,0,Other alignment
+cogent3.core.alignment.seqs_from_empty,0,0,Other alignment
+functools.singledispatch,1,0,Other package
+cogent3.core.alignment.merged_db_collection,3,0,Other alignment
+cogent3.core.alignment._,0,12,Other alignment
+cogent3.core.alignment._moltype_from_data,2,0,Other alignment
+cogent3.util.misc.get_first_value,4,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase,0,4,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.__init__,0,4,_SequenceCollectionBase
+cogent3.get_moltype,3,0,Other Cogent3
+cogent3.core.info.Info,1,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase._set_additional_attributes,1,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.named_seqs,0,1,_SequenceCollectionBase
+cogent3.core.alignment._make_named_seqs,2,0,Other alignment
+cogent3.core.alignment._SequenceCollectionBase.annotation_db,0,0,_SequenceCollectionBase
+cogent3.core.annotation_db.load_annotations.setter,1,0,Other Cogent3
+cogent3.core.annotation_db.load_annotations.union.setter,1,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.__str__,0,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.to_dict,4,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.copy,0,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.deepcopy,2,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.__eq__,0,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.__ne__,0,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.__lt__,0,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.iter_seqs,2,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.seqs,0,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.take_seqs,2,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.get_seq_indices,1,2,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.get_seq_indices.new_f,0,2,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.get_similar.f,2,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.take_seqs_if,3,2,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.iter_selected,0,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.get_identical_sets,0,7,_SequenceCollectionBase
+warnings.warn,5,0,Other package
+cogent3.core.alignment._SequenceCollectionBase.get_identical_sets.reduced,1,0,_SequenceCollectionBase
+collections.defaultdict,5,0,Other package
+collections.defaultdict.values,2,0,Other package
+cogent3.get_moltype.get_degenerate_positions,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.get_degenerate_positions,1,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.get_similar,0,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.get_similar.m,1,1,_SequenceCollectionBase
+cogent3.core.sequence.frac_same,1,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.is_ragged,2,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.to_phylip,0,3,_SequenceCollectionBase
+cogent3.format.phylip.alignment_to_phylip,1,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.to_rich_dict,1,3,_SequenceCollectionBase
+cogent3.util.misc.get_object_provenance,2,0,Other Cogent3
+cogent3.core.annotation_db.load_annotations.to_rich_dict,1,0,Other Cogent3
+cogent3.core.annotation_db.load_annotations.union.to_rich_dict,1,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.to_json,1,2,_SequenceCollectionBase
+json.dumps,2,0,Other package
+cogent3.core.alignment._SequenceCollectionBase.to_fasta,0,2,_SequenceCollectionBase
+cogent3.format.fasta.alignment_to_fasta,1,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.to_nexus,0,1,_SequenceCollectionBase
+cogent3.format.nexus.nexus_from_alignment,1,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.num_seqs,0,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.__add__,0,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.add_seqs,1,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.write,0,4,_SequenceCollectionBase
+cogent3.util.io.get_format_suffixes,1,0,Other Cogent3
+cogent3.util.io.atomic_write,1,0,Other Cogent3
+cogent3.format.alignment.save_to_filename,1,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.__len__,0,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.get_translation,0,2,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.trim_stop_codons,1,2,_SequenceCollectionBase
+cogent3.core.alignment.Alignment.get_gapped_seq,6,0,Alignment
+cogent3.core.alignment._SequenceCollectionBase.get_seq,1,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.get_ambiguous_positions,0,2,_SequenceCollectionBase
+cogent3.util.misc.get_first_value.moltype.is_ambiguity,1,0,Other Cogent3
+cogent3.get_moltype.is_ambiguity,1,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.degap,1,1,_SequenceCollectionBase
+cogent3.core.alignment.SequenceCollection.__init__,5,2,SequenceCollection
+cogent3.core.alignment._SequenceCollectionBase.with_modified_termini,0,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.has_terminal_stop,1,0,_SequenceCollectionBase
+cogent3.core.genetic_code.get_code,2,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.get_lengths,0,2,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.counts_per_seq,3,3,_SequenceCollectionBase
+cogent3.core.profile.MotifCountsArray.row_sum,1,0,Other Cogent3
+cogent3.core.alignment.Alignment.get_seq,2,0,Alignment
+cogent3.core.profile.MotifCountsArray,4,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.counts,0,2,_SequenceCollectionBase
+cogent3.core.profile.MotifCountsArray.motif_totals,1,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.get_motif_probs,0,6,_SequenceCollectionBase
+cogent3.util.misc.get_first_value.moltype.alphabet.get_motif_len,1,0,Other Cogent3
+cogent3.get_moltype.alphabet.gapped.get_motif_len,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.alphabet.gapped.get_motif_len,1,0,Other Cogent3
+cogent3.get_moltype.alphabet.get_motif_len,1,0,Other Cogent3
+cogent3.get_moltype.resolve_ambiguity,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.resolve_ambiguity,1,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.omit_gap_seqs,0,2,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.omit_gap_runs,0,2,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.to_moltype,3,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.to_dna,0,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.to_rna,0,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.to_protein,0,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.rc,1,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.reverse_complement,0,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.pad_seqs,0,1,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.strand_symmetry,0,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.dotplot,0,3,_SequenceCollectionBase
+numpy.random.choice,1,0,Other package
+cogent3.draw.dotplot.Dotplot,1,0,Other Cogent3
+cogent3.draw.drawable.AnnotatedDrawable,3,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.rename_seqs,0,4,_SequenceCollectionBase
+cogent3.get_moltype.make_seq,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.__init__,12,2,Other alignment
+cogent3.core.annotation_db.BasicAnnotationDb,5,0,Other Cogent3
+cogent3.util.progress_display.display_wrap,2,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.apply_pssm,0,8,_SequenceCollectionBase
+cogent3.parse.cisbp.read,1,0,Other Cogent3
+cogent3.parse.cisbp.read.to_pssm,1,0,Other Cogent3
+cogent3.parse.jaspar.read,1,0,Other Cogent3
+numpy.transpose.take,2,0,Other package
+cogent3.parse.cisbp.read.to_pssm.score_indexed_seq,1,0,Other Cogent3
+cogent3.parse.cisbp.read.to_pssm.score_seq,1,0,Other Cogent3
+numpy.array,16,0,Other package
+cogent3.core.alignment._SequenceCollectionBase.set_repr_policy,0,0,_SequenceCollectionBase
+cogent3.core.alignment._SequenceCollectionBase.probs_per_seq,1,2,_SequenceCollectionBase
+cogent3.core.profile.MotifCountsArray.to_freq_array,4,0,Other Cogent3
+cogent3.core.alignment._SequenceCollectionBase.entropy_per_seq,0,1,_SequenceCollectionBase
+cogent3.core.alignment.SequenceCollection.copy_annotations,0,5,SequenceCollection
+cogent3.core.annotation_db.load_annotations.compatible,1,0,Other Cogent3
+cogent3.core.annotation_db.load_annotations.union.compatible,1,0,Other Cogent3
+cogent3.core.annotation_db.load_annotations.update,1,0,Other Cogent3
+cogent3.core.annotation_db.load_annotations.union.update,1,0,Other Cogent3
+cogent3.core.annotation_db.load_annotations.union,1,0,Other Cogent3
+cogent3.core.alignment.SequenceCollection.annotate_from_gff,0,1,SequenceCollection
+cogent3.core.annotation_db.load_annotations,1,0,Other Cogent3
+cogent3.core.alignment.SequenceCollection.make_feature,1,0,SequenceCollection
+cogent3.core.alignment.SequenceCollection.add_feature,0,5,SequenceCollection
+cogent3.core.annotation_db.load_annotations.union.add_feature,1,0,Other Cogent3
+cogent3.core.annotation_db.load_annotations.add_feature,1,0,Other Cogent3
+cogent3.core.alignment.Alignment.make_feature,3,3,Alignment
+cogent3.core.alignment.SequenceCollection.get_features,0,4,SequenceCollection
+cogent3.core.annotation_db.load_annotations.union.get_features_matching,1,0,Other Cogent3
+cogent3.core.annotation_db.load_annotations.get_features_matching,1,0,Other Cogent3
+numpy.array.tolist,3,0,Other package
+cogent3.core.alignment.SequenceCollection.distance_matrix,0,1,SequenceCollection
+cogent3.app.dist.get_approx_dist_calc,1,0,Other Cogent3
+cogent3.core.annotation.Map,4,0,Other Cogent3
+cogent3.core.annotation.Map.inverse,1,0,Other Cogent3
+cogent3.util.misc.extend_docstring_from,3,0,Other Cogent3
+cogent3.core.alignment.Aligned,0,1,Other alignment
+cogent3.core.alignment.Aligned.annotate_matches_to,1,49,Other alignment
+cogent3.get_moltype.make_seq.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.annotate_matches_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rna.annotate_matches_to,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.moltype,0,0,Other alignment
+cogent3.core.alignment.Aligned.copy,1,0,Other alignment
+cogent3.core.alignment.Aligned.deepcopy,0,57,Other alignment
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rna.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_dna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_dna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_dna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_dna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_dna.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rna.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rna.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_dna.copy,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.copy,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.copy,1,0,Other Cogent3
+cogent3.core.annotation.Map.inverse.reversed.get_covering_span,2,0,Other Cogent3
+cogent3.util.deserialise.deserialise_map_spans.reversed.get_covering_span,2,0,Other Cogent3
+cogent3.core.annotation.Map.inverse.get_covering_span,2,0,Other Cogent3
+cogent3.util.deserialise.deserialise_map_spans.get_covering_span,2,0,Other Cogent3
+cogent3.core.annotation.Map.inverse.reversed.zeroed,2,0,Other Cogent3
+cogent3.core.annotation.Map.inverse.zeroed,2,0,Other Cogent3
+cogent3.util.deserialise.deserialise_map_spans.reversed.zeroed,2,0,Other Cogent3
+cogent3.util.deserialise.deserialise_map_spans.zeroed,2,0,Other Cogent3
+cogent3.core.alignment.Aligned.__repr__,0,0,Other alignment
+cogent3.core.alignment.Aligned.with_termini_unknown,0,4,Other alignment
+cogent3.util.deserialise.deserialise_map_spans.reversed.with_termini_unknown,1,0,Other Cogent3
+cogent3.core.annotation.Map.inverse.reversed.with_termini_unknown,1,0,Other Cogent3
+cogent3.core.annotation.Map.inverse.with_termini_unknown,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_map_spans.with_termini_unknown,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.__str__,0,1,Other alignment
+cogent3.core.alignment.Aligned.get_gapped_seq,3,15,Other alignment
+cogent3.core.alignment.Aligned.__lt__,0,0,Other alignment
+cogent3.core.alignment.Aligned.__eq__,0,0,Other alignment
+cogent3.core.alignment.Aligned.__hash__,0,0,Other alignment
+cogent3.core.alignment.Aligned.__ne__,0,0,Other alignment
+cogent3.core.alignment.Aligned.__iter__,0,48,Other alignment
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rna.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map.gapped_by_map_motif_iter,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.__len__,0,0,Other alignment
+cogent3.core.alignment.Aligned.__add__,0,50,Other alignment
+cogent3.util.deserialise.deserialise_seq.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_dna.parse_out_gaps,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.parse_out_gaps,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map.parse_out_gaps,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.__getitem__,0,1,Other alignment
+cogent3.core.alignment.Aligned.rc,0,3,Other alignment
+cogent3.core.annotation.Map.inverse.reversed,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_map_spans.reversed,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.to_rna,1,17,Other alignment
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rna,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rna,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rna,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rna,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rna,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rna,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.to_dna,1,17,Other alignment
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_dna,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_dna,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_dna,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_dna,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_dna,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_dna,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.to_rich_dict,2,66,Other alignment
+cogent3.util.deserialise.deserialise_map_spans.get_covering_span.get_coordinates,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_map_spans.reversed.get_covering_span.get_coordinates,1,0,Other Cogent3
+cogent3.core.annotation.Map.inverse.get_covering_span.get_coordinates,1,0,Other Cogent3
+cogent3.core.annotation.Map.inverse.reversed.get_covering_span.get_coordinates,1,0,Other Cogent3
+cogent3.core.annotation.Map.inverse.zeroed.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_map_spans.reversed.zeroed.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_map_spans.zeroed.to_rich_dict,1,0,Other Cogent3
+cogent3.core.annotation.Map.inverse.reversed.zeroed.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map.to_rich_dict,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_rich_dict,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.from_rich_dict,0,3,Other alignment
+cogent3.util.deserialise.deserialise_map_spans,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.to_json,0,2,Other alignment
+cogent3.core.alignment.Aligned.to_moltype,1,50,Other alignment
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_moltype,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_moltype,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_moltype,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.remapped_to,0,3,Other alignment
+cogent3.util.deserialise.deserialise_map_spans.reversed.inverse,2,0,Other Cogent3
+cogent3.util.deserialise.deserialise_map_spans.inverse,2,0,Other Cogent3
+cogent3.core.alignment.Aligned.make_feature,1,99,Other alignment
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rna.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rna.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_dna.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_dna.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rna.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_dna.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rna.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_dna.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rna.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_dna.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rna.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.make_feature,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_dna.make_feature,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.make_feature,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.make_feature.remapped_to,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.gap_vector,0,16,Other alignment
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.gap_vector,1,0,Other Cogent3
+cogent3.core.alignment.Aligned._masked_annotations,0,48,Other alignment
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.with_masked_annotations,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map.with_masked_annotations,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.with_masked_annotations,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.strand_symmetry,1,49,Other alignment
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.strand_symmetry,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.strand_symmetry,1,0,Other Cogent3
+cogent3.core.alignment.Aligned.is_annotated,1,49,Other alignment
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_rna.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.gapped_by_map.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.to_rna.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_dna.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_rna.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.gapped_by_map.to_dna.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.gapped_by_map.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_rna.to_dna.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.gapped_by_map.to_rna.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.to_dna.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.gapped_by_map.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_dna.to_rna.is_annotated,1,0,Other Cogent3
+cogent3.get_moltype.make_seq.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.to_dna.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.is_annotated,1,0,Other Cogent3
+cogent3.util.deserialise.deserialise_seq.to_rna.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.make_seq.to_rna.gapped_by_map.is_annotated,1,0,Other Cogent3
+cogent3.core.alignment.AlignmentI.alignment_quality,0,1,AlignmentI
+cogent3.get_app,1,0,Other Cogent3
+cogent3.core.alignment.AlignmentI.iter_positions,1,0,AlignmentI
+cogent3.core.alignment.AlignmentI,0,3,AlignmentI
+cogent3.core.alignment.AlignmentI.take_positions,2,0,AlignmentI
+cogent3.core.alignment.AlignmentI.get_position_indices,1,0,AlignmentI
+cogent3.core.alignment.AlignmentI.get_position_indices.new_f,0,0,AlignmentI
+cogent3.core.alignment.AlignmentI.take_positions_if,0,2,AlignmentI
+cogent3.core.alignment.AlignmentI.iupac_consensus,0,1,AlignmentI
+cogent3.core.alignment.AlignmentI.majority_consensus,0,1,AlignmentI
+cogent3.maths.stats.number.CategoryCounter,2,0,Other Cogent3
+cogent3.core.alignment.AlignmentI.probs_per_pos,1,2,AlignmentI
+cogent3.core.alignment.AlignmentI.counts_per_pos,2,5,AlignmentI
+cogent3.core.alignment.AlignmentI.entropy_per_pos,1,2,AlignmentI
+cogent3.core.profile.MotifCountsArray.to_freq_array.entropy,1,0,Other Cogent3
+cogent3.core.alignment.AlignmentI.probs_per_seq,1,2,AlignmentI
+cogent3.core.alignment.AlignmentI.counts_per_seq,1,3,AlignmentI
+cogent3.core.alignment.AlignmentI.entropy_per_seq,0,1,AlignmentI
+cogent3.core.alignment.AlignmentI.no_degenerates,0,2,AlignmentI
+cogent3.core.alignment.Alignment.filtered,2,6,Alignment
+cogent3.core.alignment.AlignmentI.omit_gap_pos,0,2,AlignmentI
+cogent3.core.alignment.AlignmentI.get_gap_array,2,2,AlignmentI
+cogent3.core.alignment.AlignmentI.to_type,2,0,AlignmentI
+numpy.logical_or,3,0,Other package
+cogent3.core.alignment.AlignmentI.count_gaps_per_pos,1,4,AlignmentI
+cogent3.util.dict_array.DictArrayTemplate,3,0,Other Cogent3
+numpy.logical_or.sum,2,0,Other package
+cogent3.util.dict_array.DictArrayTemplate.wrap,3,0,Other Cogent3
+cogent3.core.alignment.AlignmentI.count_gaps_per_seq,1,9,AlignmentI
+os.path.basename,2,0,Other package
+cogent3.draw.drawable.Drawable,4,0,Other Cogent3
+cogent3.util.union_dict.UnionDict,3,0,Other Cogent3
+cogent3.draw.drawable.Drawable.add_trace,2,0,Other Cogent3
+cogent3.draw.drawable.Drawable.bound_to,2,0,Other Cogent3
+cogent3.core.alignment.AlignmentI.omit_bad_seqs,0,5,AlignmentI
+numpy.quantile,1,0,Other package
+cogent3.util.dict_array.DictArrayTemplate.wrap.items,1,0,Other Cogent3
+cogent3.draw.drawable.Drawable.bound_to.items,1,0,Other Cogent3
+numpy.logical_or.sum.items,1,0,Other package
+cogent3.core.alignment.AlignmentI.matching_ref,0,1,AlignmentI
+cogent3.core.alignment.make_gap_filter,1,1,Other alignment
+cogent3.core.alignment.AlignmentI.sample,1,4,AlignmentI
+numpy.random.randint,2,0,Other package
+numpy.random.permutation,2,0,Other package
+cogent3.core.alignment.Alignment.gapped_by_map,2,0,Alignment
+cogent3.core.alignment.AlignmentI.sliding_windows,0,0,AlignmentI
+cogent3.core.alignment.AlignmentI._get_raw_pretty,2,1,AlignmentI
+cogent3.core.alignment.AlignmentI._repr_html_,0,2,AlignmentI
+cogent3.util.misc.get_setting_from_environ,1,0,Other Cogent3
+cogent3.core.alignment.AlignmentI.to_html,1,6,AlignmentI
+re.search,1,0,Other package
+re.search.end,1,0,Other package
+re.search.start,1,0,Other package
+cogent3.core.alignment.AlignmentI.to_pretty,0,2,AlignmentI
+cogent3.core.alignment.AlignmentI.to_pretty.make_line,1,0,AlignmentI
+cogent3.core.profile.MotifCountsArray.append,1,0,Other Cogent3
+cogent3.maths.stats.number.CategoryCounter.tolist,1,0,Other Cogent3
+cogent3.core.alignment.AlignmentI.variable_positions,0,2,AlignmentI
+cogent3.core.alignment.Alignment.iter_positions,1,0,Alignment
+cogent3.core.alignment.AlignmentI.distance_matrix,1,4,AlignmentI
+cogent3.evolve.fast_distance.get_distance_calculator,1,0,Other Cogent3
+cogent3.evolve.fast_distance.get_distance_calculator.run,1,0,Other Cogent3
+cogent3.evolve.fast_distance.get_distance_calculator.get_pairwise_distances,1,0,Other Cogent3
+cogent3.evolve.fast_distance.get_distance_calculator.get_pairwise_distances.drop_invalid,1,0,Other Cogent3
+cogent3.core.alignment.AlignmentI.quick_tree,0,6,AlignmentI
+cogent3.phylo.nj.gnj,1,0,Other Cogent3
+cogent3.phylo.nj.gnj.extend,1,0,Other Cogent3
+cogent3.phylo.consensus.weighted_majority_rule.extend,1,0,Other Cogent3
+cogent3.phylo.consensus.weighted_majority_rule,1,0,Other Cogent3
+cogent3.core.alignment.AlignmentI.information_plot,0,13,AlignmentI
+numpy.sqrt,1,0,Other package
+numpy.isnan,1,0,Other package
+numpy.median,1,0,Other package
+numpy.arange,3,0,Other package
+cogent3.draw.dotplot.Dotplot.traces.extend,1,0,Other Cogent3
+cogent3.draw.drawable.Drawable.traces.extend,1,0,Other Cogent3
+cogent3.draw.drawable.AnnotatedDrawable.traces.extend,1,0,Other Cogent3
+cogent3.core.alignment.Alignment.get_drawable,2,3,Alignment
+cogent3.core.alignment.AlignmentI.coevolution,0,30,AlignmentI
+itertools.combinations,1,0,Other package
+numpy.zeros,2,0,Other package
+cogent3.draw.dotplot.Dotplot.bound_to.take,1,0,Other Cogent3
+cogent3.draw.drawable.Drawable.bound_to.take,1,0,Other Cogent3
+cogent3.util.dict_array.DictArrayTemplate.wrap.take,1,0,Other Cogent3
+numpy.zeros.take,1,0,Other package
+cogent3.draw.drawable.AnnotatedDrawable.bound_to.take,1,0,Other Cogent3
+cogent3.draw.dotplot.Dotplot.bound_to.array.flatten,1,0,Other Cogent3
+cogent3.core.profile.MotifCountsArray.to_freq_array.entropy.flatten,1,0,Other Cogent3
+numpy.zeros.array.flatten,1,0,Other package
+cogent3.draw.drawable.AnnotatedDrawable.bound_to.array.flatten,1,0,Other Cogent3
+cogent3.draw.dotplot.Dotplot.add_trace,1,0,Other Cogent3
+cogent3.draw.drawable.AnnotatedDrawable.add_trace,1,0,Other Cogent3
+cogent3.draw.drawable.AnnotatedDrawable.bound_to,1,0,Other Cogent3
+cogent3.draw.dotplot.Dotplot.bound_to,1,0,Other Cogent3
+cogent3.draw.drawable.Drawable.layout.xaxis.update,1,0,Other Cogent3
+cogent3.draw.drawable.AnnotatedDrawable.layout.xaxis.update,1,0,Other Cogent3
+cogent3.draw.dotplot.Dotplot.layout.xaxis.update,1,0,Other Cogent3
+cogent3.draw.drawable.AnnotatedDrawable.layout.yaxis.update,1,0,Other Cogent3
+cogent3.draw.dotplot.Dotplot.layout.yaxis.update,1,0,Other Cogent3
+cogent3.draw.drawable.Drawable.layout.yaxis.update,1,0,Other Cogent3
+cogent3.core.alignment.AlignmentI.seqlogo,0,3,AlignmentI
+cogent3.core.profile.MotifCountsArray.to_freq_array.logo,1,0,Other Cogent3
+cogent3.core.alignment.AlignmentI.trim_stop_codons,1,4,AlignmentI
+re.compile,1,0,Other package
+re.compile.search,1,0,Other package
+re.compile.sub,1,0,Other package
+cogent3.core.alignment.AlignmentI.get_translation,0,2,AlignmentI
+cogent3.core.alignment._one_length,4,0,Other alignment
+cogent3.core.alignment.aln_from_array,0,1,Other alignment
+cogent3.core.alignment.aln_from_array_seqs,1,3,Other alignment
+numpy.array.astype,4,0,Other package
+cogent3.core.alignment.aln_from_generic,0,3,Other alignment
+numpy.array.astype.astype,1,0,Other package
+cogent3.core.alignment.aln_from_collection,0,2,Other alignment
+cogent3.core.alignment.aln_from_fasta,0,3,Other alignment
+cogent3.core.sequence.ArraySequence,1,0,Other Cogent3
+cogent3.core.alignment.aln_from_dict,0,3,Other alignment
+cogent3.core.alignment.aln_from_kv_pairs,0,3,Other alignment
+cogent3.core.alignment.aln_from_array_aln,0,1,Other alignment
+cogent3.core.alignment.aln_from_empty,0,0,Other alignment
+cogent3.core.alignment.ArrayAlignment.__init__,0,3,ArrayAlignment
+numpy.transpose.astype,1,0,Other package
+cogent3.core.alignment.ArrayAlignment._set_additional_attributes,0,1,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment._get_positions,0,0,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment,0,1,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.named_seqs,0,1,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.__iter__,0,0,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.__getitem__,0,1,ArrayAlignment
+numpy.vstack,1,0,Other package
+cogent3.core.alignment.ArrayAlignment._coerce_seqs,0,0,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.get_sub_alignment,0,4,ArrayAlignment
+numpy.ones,1,0,Other package
+numpy.put,1,0,Other package
+numpy.nonzero,1,0,Other package
+numpy.take,2,0,Other package
+cogent3.core.alignment.ArrayAlignment.__str__,0,0,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.__repr__,0,0,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.iupac_consensus,0,1,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.sample,0,4,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.filtered,2,6,ArrayAlignment
+numpy.transpose.reshape,1,0,Other package
+cogent3.core.alignment.ArrayAlignment.get_gapped_seq,0,0,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.get_degapped_relative_to,0,0,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.add_from_ref_aln,0,2,ArrayAlignment
+cogent3.core.alignment.Alignment.add_from_ref_aln,1,3,Alignment
+cogent3.core.alignment.ArrayAlignment.replace_seqs,0,10,ArrayAlignment
+cogent3.util.misc.get_first_value.moltype.alphabet.to_indices,1,0,Other Cogent3
+cogent3.util.misc.get_first_value.moltype.alphabets.degen_gapped.to_indices,1,0,Other Cogent3
+cogent3.get_moltype.alphabet.to_indices,1,0,Other Cogent3
+cogent3.get_moltype.alphabets.degen_gapped.to_indices,1,0,Other Cogent3
+numpy.array.flatten,1,0,Other package
+numpy.array.flatten.resize,1,0,Other package
+cogent3.core.alignment.ArrayAlignment.to_moltype,0,0,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.get_identical_sets,0,6,ArrayAlignment
+numpy.transpose.tolist,1,0,Other package
+numpy.logical_and,2,0,Other package
+cogent3.core.alignment.ArrayAlignment.deepcopy,1,1,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.no_degenerates,0,2,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.counts_per_seq,0,2,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.omit_gap_pos,0,2,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.get_position_indices,0,0,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.get_position_indices.new_f,0,0,ArrayAlignment
+cogent3.core.alignment.ArrayAlignment.get_gap_array,0,1,ArrayAlignment
+cogent3.core.alignment.make_gap_filter.result,0,5,Other alignment
+numpy.logical_not,1,0,Other package
+numpy.logical_and.astype,1,0,Other package
+numpy.logical_and.astype.tobytes,1,0,Other package
+cogent3.core.alignment.Alignment.__init__,1,1,Alignment
+cogent3.core.alignment.Alignment._coerce_seqs,0,0,Alignment
+cogent3.core.alignment.Alignment._seq_to_aligned,0,1,Alignment
+cogent3.core.alignment.Alignment.__getitem__,0,1,Alignment
+cogent3.core.alignment.Alignment._mapped,1,0,Alignment
+cogent3.core.alignment.Alignment.__repr__,0,0,Alignment
+cogent3.core.alignment.Alignment.annotation_db,0,0,Alignment
+cogent3.core.alignment.Alignment.get_projected_feature,1,1,Alignment
+cogent3.core.alignment.Alignment.get_projected_features,0,2,Alignment
+cogent3.core.alignment.Alignment.get_features,2,5,Alignment
+cogent3.core.alignment.Alignment.with_masked_annotations,0,0,Alignment
+cogent3.core.alignment.Alignment,0,1,Alignment
+cogent3.core.alignment.Alignment.with_gaps_from,0,2,Alignment
+cogent3.core.alignment.Alignment.get_degapped_relative_to,0,2,Alignment
+cogent3.core.alignment.Alignment.replace_seqs,0,2,Alignment
+cogent3.core.alignment.Alignment.get_drawables,1,3,Alignment
+cogent3.core.annotation.Feature.get_drawable,1,0,Other Cogent3
+cogent3.draw.drawable.Drawable.layout.update,1,0,Other Cogent3
+cogent3.core.alignment.Alignment.add_feature,0,2,Alignment
+cogent3.core.annotation.Map.nucleic_reversed,1,0,Other Cogent3
+cogent3.core.annotation.Feature,1,0,Other Cogent3
+cogent3.core.alignment.Alignment._get_seq_features,1,2,Alignment
+cogent3.core.alignment._make_name_seq_data,3,1,Other alignment
+cogent3.core.alignment._coerce_to_unaligned_seqs,1,5,Other alignment
+cogent3.core.alignment._check_name_consistency,3,0,Other alignment
+cogent3.core.alignment._construct_unaligned_seq,3,0,Other alignment
+cogent3.core.alignment._coerce_from_containers,1,0,Other alignment
+cogent3.core.alignment._coerce_to_array_aligned_seqs,1,6,Other alignment
+cogent3.core.alignment._construct_array_aligned_seq,3,1,Other alignment
+cogent3.core.alignment._coerce_to_aligned_seqs,1,6,Other alignment
+cogent3.core.alignment._construct_aligned_seq,2,2,Other alignment
