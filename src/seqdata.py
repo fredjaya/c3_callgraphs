@@ -1,6 +1,8 @@
-from dataclasses import dataclass, InitVar, field
-from numpy import array
+from dataclasses import InitVar, dataclass, field
+
 from cogent3 import get_moltype
+from numpy import array
+
 
 @dataclass(slots=True)
 class SeqData:
