@@ -1,22 +1,26 @@
-from dataclasses import dataclass
-from typing import Tuple, List
+from dataclasses import dataclass, InitVar, field
 from numpy import array
+from cogent3 import get_moltype
 
 @dataclass(slots=True)
 class SeqData:
-    _data: dict[str,str]
-    _moltype: "MolType" = "dna"
-    _name_order: tuple[str] = None
+    _data: dict[str, str] = field(init=False)
+    _moltype: "MolType" = field(init=False)
+    _name_order: tuple[str] = field(init=False)
+    data: InitVar[dict[str, str]]
+    moltype: InitVar[str | None] = "dna"
+    name_order: InitVar[tuple[str] | None] = None
 
-    def get_seq_str(self, name: str, start: int = 0 , end: int = None) -> tuple[str]:
+    def __post_init__(self, data, moltype, name_order):
+        self._data = data
+        self._name_order = name_order or tuple(data)
+        self._moltype = get_moltype(moltype)
+
+    def get_seq_str(self, name: str, start: int = 0, end: int = None) -> tuple[str]:
         if not end:
             end = len(self._data[name])
         return self._data[name][start:end]
-    
-    def iter_seqs_str(self, name_order: List[str]) -> tuple[str]:
-        if not name_order:
-            raise TypeError("`name_order` must be provided.")
-        if not isinstance(name_order, list):
-            raise TypeError("`name_order` must be a list.")
-        return tuple(self._data[name] for name in name_order)
 
+    def iter_seqs_str(self, name_order: list[str] = None) -> tuple[str]:
+        name_order = name_order or self._name_order
+        yield from (self._data[n] for n in name_order)
