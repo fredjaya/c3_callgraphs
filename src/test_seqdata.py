@@ -16,10 +16,10 @@ def test_default():
 
 
 def test_get_seq_str(smalldemo: SeqData):
-    got = smalldemo.get_seq_str("seq1", start=1, end=4)
+    got = smalldemo.get_seq_str(name="seq1", start=1, end=4)
     assert got == "CGT"
 
-    got = smalldemo.get_seq_str("seq1")
+    got = smalldemo.get_seq_str(name="seq1")
     assert got == "ACGT"
 
     with pytest.raises(TypeError):
@@ -35,3 +35,14 @@ def test_get_iter_seqs_str(smalldemo: SeqData):
 
     got = smalldemo.iter_seqs_str()
     assert tuple(got) == ("ACGT", "GTTTGCA")
+
+
+def test_get_iter_names(smalldemo: SeqData):
+    got = smalldemo.iter_names()
+    assert tuple(got) == ("seq1", "seq2")
+    
+    got = smalldemo.iter_names(name_order=["seq2", "seq1"])
+    assert tuple(got) == ("seq2", "seq1")
+    
+    got = smalldemo.iter_names(name_order=["seq2"])
+    assert tuple(got) == ("seq2",)
