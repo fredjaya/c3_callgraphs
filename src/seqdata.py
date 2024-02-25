@@ -1,4 +1,4 @@
-import typing
+from typing import Iterator, Optional
 from dataclasses import InitVar, dataclass, field
 
 from cogent3 import get_moltype
@@ -24,14 +24,14 @@ class SeqData:
     ) -> tuple[str]:
         return self._data[name][start:end]
 
-    def iter_seqs_str(self, *, name_order: list[str] = None) -> typing.Iterator:
+    def iter_seqs_str(self, *, name_order: list[str] = None) -> Iterator:
         name_order = name_order or self._name_order
         yield from (self.get_seq_str(name=n) for n in name_order)
 
-    def iter_names(self, *, name_order: list[str] = None) -> typing.Iterator:
+    def iter_names(self, *, name_order: list[str] = None) -> Iterator:
         yield from iter(name_order or self._name_order)
 
-    def iter_seqview_seqs_str(self, *, name_order: list[str] = None) -> typing.Iterator:
+    def iter_seqview_seqs_str(self, *, name_order: list[str] = None) -> Iterator:
         name_order = name_order or self._name_order
         yield from (str(SeqView(seq=self._data[n])) for n in name_order)
 
