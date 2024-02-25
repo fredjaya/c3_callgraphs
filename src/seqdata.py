@@ -36,11 +36,9 @@ class SeqData:
         yield from (str(SeqView(seq=self._data[n])) for n in name_order)
 
 
-@dataclass
 class SeqDataView(SeqView):
-    def __getitem__(self, index):
-        # super().__getitem__(segment)
-        return self.__repr__()
+    # Don't use dataclasses due to avoid inheritance issues
 
-    def __repr__(self):
-        return self.__class__()
+    def __init__(self, seq, seq_len: Optional[int], name=None,*args,**kwargs):
+        super().__init__(seq, *args, **kwargs)
+        #self._seq_len = seq_len or len(seq)

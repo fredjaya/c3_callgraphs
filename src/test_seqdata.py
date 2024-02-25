@@ -60,7 +60,7 @@ def test_get_iter_seqview_seqs_str(smalldemo: SeqData):
 
 
 def test_seqdataview_returns_self():
-    assert isinstance(SeqDataView(), SeqDataView)
+    assert isinstance(SeqDataView(""), SeqDataView)
 
 
 @pytest.mark.parametrize(
@@ -75,6 +75,6 @@ def test_seqdataview_returns_self():
     ],
 )
 def test_seqdataview_slice_returns_self(index: slice):
-    obj = SeqDataView()
+    obj = SeqDataView("")
     got = obj[index]
     assert isinstance(got, SeqDataView)
