@@ -23,7 +23,7 @@ def test_seqdata_default_attributes(sd_demo: SeqData):
     assert sd_demo._moltype.label == "dna"
 
 
-def test_seqdata_name_order(seq1: str):
+def test_seqdata_seq_str(seq1: str):
     with pytest.raises(AttributeError):
         SeqData(seq1)
     # assert SeqData(data)._name_order != ("A", "C", "T", "G")
@@ -74,7 +74,14 @@ def test_get_iter_seqview_seqs_str(sd_demo: SeqData):
 
 
 def test_seqdataview_returns_self(seq1: str):
-    assert isinstance(SeqDataView(seq1), SeqDataView)
+    assert isinstance(SeqDataView(seq1, seqid="seq1"), SeqDataView)
+
+
+def test_seqdataview_repr():
+    seq, seqid = "ACTG", "seq1"
+    got = SeqDataView(seq, seqid=seqid)
+    expect = "SeqDataView(seq='ACTG', start=0, stop=4, step=1, offset=0, seqid='seq1', seq_len=4)"
+    assert repr(got) == expect
 
 
 @pytest.mark.parametrize(
@@ -89,6 +96,6 @@ def test_seqdataview_returns_self(seq1: str):
     ],
 )
 def test_seqdataview_slice_returns_self(seq1: str, index: slice):
-    obj = SeqDataView(seq1)
+    obj = SeqDataView(seq1, seqid="seq1")
     got = obj[index]
     assert isinstance(got, SeqDataView)

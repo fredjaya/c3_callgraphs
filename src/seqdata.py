@@ -39,5 +39,5 @@ class SeqData:
 class SeqDataView(SeqView):
     # Don't use dataclasses due to avoid inheritance issues
 
-    def __init__(self, seq, *args, **kwargs):
-        super().__init__(seq, *args, **kwargs)
+    def __init__(self, seq: str, *args, seqid: str, **kwargs):
+        super().__init__(seq, seqid=seqid, *args, **kwargs)
