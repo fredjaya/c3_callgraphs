@@ -35,6 +35,10 @@ class SeqData:
         name_order = name_order or self._name_order
         yield from (str(SeqView(seq=self._data[n])) for n in name_order)
 
+    def get_view(self, seqid: str):
+        seq = self._data[seqid]
+        return SeqDataView(seq=seq, seqid=seqid, seq_len=len(seq))
+
 
 class SeqDataView(SeqView):
     # Don't use dataclasses due to avoid inheritance issues
