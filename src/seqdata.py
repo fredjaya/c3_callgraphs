@@ -16,7 +16,7 @@ class SeqData:
 
     def __post_init__(self, data, moltype, name_order):
         self._data = data
-        self._name_order = name_order or tuple(data)
+        self._name_order = name_order or tuple(data.keys())
         self._moltype = get_moltype(moltype)
 
     def get_seq_str(

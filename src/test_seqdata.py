@@ -1,61 +1,67 @@
 import pytest
-from cogent3 import get_moltype
-
 from seqdata import SeqData, SeqDataView
 
 
 @pytest.fixture
-def smalldemo():
-    return SeqData(data=dict(seq1="ACGT", seq2="GTTTGCA"))
+def simple_dict():
+    return dict(seq1="ACGT", seq2="GTTTGCA")
+
+@pytest.fixture
+def sd_demo(simple_dict: dict[str, str]):
+    return SeqData(data=simple_dict)
+
+def test_seqdata_default_attributes(sd_demo: SeqData):
+    assert sd_demo._name_order == ("seq1", "seq2")
+    assert sd_demo._moltype.label == "dna"
+
+def test_seqdata_name_order():
+    data = "ACTG"
+    with pytest.raises(AttributeError):
+        SeqData(data)
+    #assert SeqData(data)._name_order != ("A", "C", "T", "G")
 
 
-def test_default():
-    seqdata = SeqData(data=dict(seq1="ACGT"))
-    assert seqdata._name_order == ("seq1",)
-    assert seqdata._moltype.label == "dna"
-
-
-def test_get_seq_str(smalldemo: SeqData):
-    got = smalldemo.get_seq_str(name="seq1", start=1, end=4)
+def test_get_seq_str(sd_demo: SeqData):
+    got = sd_demo.get_seq_str(name="seq1", start=1, end=4)
     assert got == "CGT"
 
-    got = smalldemo.get_seq_str(name="seq1")
+    got = sd_demo.get_seq_str(name="seq1")
     assert got == "ACGT"
 
     with pytest.raises(TypeError):
-        smalldemo.get_seq_str()
+        sd_demo.get_seq_str()
 
 
-def test_iter_seqs_str(smalldemo: SeqData):
-    got = smalldemo.iter_seqs_str(name_order=["seq2"])
+def test_iter_seqs_str(sd_demo: SeqData):
+    got = sd_demo.iter_seqs_str(name_order=["seq2"])
     assert tuple(got) == ("GTTTGCA",)
 
-    got = smalldemo.iter_seqs_str(name_order=["seq2", "seq1"])
+    got = sd_demo.iter_seqs_str(name_order=["seq2", "seq1"])
     assert tuple(got) == ("GTTTGCA", "ACGT")
 
-    got = smalldemo.iter_seqs_str()
+    got = sd_demo.iter_seqs_str()
     assert tuple(got) == ("ACGT", "GTTTGCA")
 
 
-def test_iter_names(smalldemo: SeqData):
-    got = smalldemo.iter_names()
+def test_iter_names(sd_demo: SeqData):
+    got = sd_demo.iter_names()
     assert tuple(got) == ("seq1", "seq2")
 
-    got = smalldemo.iter_names(name_order=["seq2", "seq1"])
+    got = sd_demo.iter_names(name_order=["seq2", "seq1"])
     assert tuple(got) == ("seq2", "seq1")
 
-    got = smalldemo.iter_names(name_order=["seq2"])
+    got = sd_demo.iter_names(name_order=["seq2"])
     assert tuple(got) == ("seq2",)
 
 
-def test_get_iter_seqview_seqs_str(smalldemo: SeqData):
-    got = smalldemo.iter_seqview_seqs_str(name_order=["seq2"])
+def test_get_iter_seqview_seqs_str(sd_demo: SeqData):
+    got = sd_demo.iter_seqview_seqs_str(name_order=["seq2"])
     assert tuple(got) == ("GTTTGCA",)
 
-    got = smalldemo.iter_seqview_seqs_str(name_order=["seq2", "seq1"])
+    got = sd_demo.iter_seqview_seqs_str(name_order=["seq2", "seq1"])
     assert tuple(got) == ("GTTTGCA", "ACGT")
 
-    got = smalldemo.iter_seqview_seqs_str()
+    got = sd_demo.iter_seqview_seqs_str()
     assert tuple(got) == ("ACGT", "GTTTGCA")
 
 
