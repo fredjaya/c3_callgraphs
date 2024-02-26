@@ -4,11 +4,11 @@ def assign_group(name: str):
         _, _, module, *cls = name.split(".", maxsplit=4)
         if not cls:
             return "Other alignment"
-        
+
         classes = {
             "Alignment",
             "ArrayAlignment",
-            "SequenceCollection", 
+            "SequenceCollection",
             "AlignmentI",
             "_SequenceCollectionBase",
         }

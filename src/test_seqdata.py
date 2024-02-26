@@ -1,24 +1,32 @@
 import pytest
+
 from seqdata import SeqData, SeqDataView
+
+
+@pytest.fixture
+def seq1():
+    return "ACTG"
 
 
 @pytest.fixture
 def simple_dict():
     return dict(seq1="ACGT", seq2="GTTTGCA")
 
+
 @pytest.fixture
 def sd_demo(simple_dict: dict[str, str]):
     return SeqData(data=simple_dict)
+
 
 def test_seqdata_default_attributes(sd_demo: SeqData):
     assert sd_demo._name_order == ("seq1", "seq2")
     assert sd_demo._moltype.label == "dna"
 
-def test_seqdata_name_order():
-    data = "ACTG"
+
+def test_seqdata_name_order(seq1: str):
     with pytest.raises(AttributeError):
-        SeqData(data)
-    #assert SeqData(data)._name_order != ("A", "C", "T", "G")
+        SeqData(seq1)
+    # assert SeqData(data)._name_order != ("A", "C", "T", "G")
 
 
 def test_get_seq_str(sd_demo: SeqData):
@@ -65,8 +73,8 @@ def test_get_iter_seqview_seqs_str(sd_demo: SeqData):
     assert tuple(got) == ("ACGT", "GTTTGCA")
 
 
-def test_seqdataview_returns_self():
-    assert isinstance(SeqDataView(""), SeqDataView)
+def test_seqdataview_returns_self(seq1: str):
+    assert isinstance(SeqDataView(seq1), SeqDataView)
 
 
 @pytest.mark.parametrize(
@@ -80,7 +88,7 @@ def test_seqdataview_returns_self():
         slice(None),
     ],
 )
-def test_seqdataview_slice_returns_self(index: slice):
-    obj = SeqDataView("")
+def test_seqdataview_slice_returns_self(seq1: str, index: slice):
+    obj = SeqDataView(seq1)
     got = obj[index]
     assert isinstance(got, SeqDataView)

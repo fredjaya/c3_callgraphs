@@ -1,5 +1,5 @@
-from typing import Iterator, Optional
 from dataclasses import InitVar, dataclass, field
+from typing import Iterator, Optional
 
 from cogent3 import get_moltype
 from cogent3.core.sequence import SeqView
@@ -39,6 +39,5 @@ class SeqData:
 class SeqDataView(SeqView):
     # Don't use dataclasses due to avoid inheritance issues
 
-    def __init__(self, seq, seq_len: Optional[int], name=None,*args,**kwargs):
+    def __init__(self, seq, *args, **kwargs):
         super().__init__(seq, *args, **kwargs)
-        #self._seq_len = seq_len or len(seq)
