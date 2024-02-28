@@ -20,13 +20,13 @@ class SeqData:
         self._moltype = get_moltype(moltype)
 
     def get_seq_str(
-        self, *, name: str, start: int = None, end: int = None
+        self, *, seqid: str, start: int = None, stop: int = None
     ) -> tuple[str]:
-        return self._data[name][start:end]
+        return self._data[seqid][start:stop]
 
     def iter_seqs_str(self, *, name_order: list[str] = None) -> Iterator:
         name_order = name_order or self._name_order
-        yield from (self.get_seq_str(name=n) for n in name_order)
+        yield from (self.get_seq_str(seqid=n) for n in name_order)
 
     def iter_names(self, *, name_order: list[str] = None) -> Iterator:
         yield from iter(name_order or self._name_order)
@@ -41,7 +41,15 @@ class SeqData:
 
 
 class SeqDataView(SeqView):
-    # Don't use dataclasses due to avoid inheritance issues
+    # self.seq: SeqData
 
-    def __init__(self, seq: str, *args, seqid: str, **kwargs):
-        super().__init__(seq, seqid=seqid, *args, **kwargs)
+    def _checked_seq_len(self, seq, seq_len) -> int:
+        assert seq_len is not None
+        return seq_len
+
+    @property
+    def value(self) -> str:
+        raw = self.seq.get_seq_str(
+            seqid=self.seqid, start=self.parent_start, stop=self.parent_stop
+        )
+        return raw if self.step == 1 else raw[:: self.step]

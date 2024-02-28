@@ -23,10 +23,11 @@ def test_seqdata_default_attributes(sd_demo: SeqData):
     assert sd_demo._moltype.label == "dna"
 
 
-def test_seqdata_seq_str(seq1: str):
+def test_seqdata_seq_if_str(seq1: str):
     with pytest.raises(AttributeError):
         SeqData(seq1)
     # assert SeqData(data)._name_order != ("A", "C", "T", "G")
+
 
 def test_seqdata_get_view(sd_demo: SeqData):
     got = sd_demo.get_view("seq1")
@@ -39,10 +40,10 @@ def test_seqdata_get_view(sd_demo: SeqData):
 
 
 def test_get_seq_str(sd_demo: SeqData):
-    got = sd_demo.get_seq_str(name="seq1", start=1, end=4)
+    got = sd_demo.get_seq_str(seqid="seq1", start=1, stop=4)
     assert got == "CGT"
 
-    got = sd_demo.get_seq_str(name="seq1")
+    got = sd_demo.get_seq_str(seqid="seq1")
     assert got == "ACGT"
 
     with pytest.raises(TypeError):
@@ -102,3 +103,15 @@ def test_seqdataview_slice_returns_self(seq1: str, index: slice):
     sdv = SeqDataView(seq1, seqid="seq1", seq_len=len(seq1))
     got = sdv[index]
     assert isinstance(got, SeqDataView)
+
+
+@pytest.mark.parametrize("start", (None, 0, 1, 4, -1, -4))
+@pytest.mark.parametrize("stop", (None, 0, 1, 4, -1, -4))
+@pytest.mark.parametrize("step", (None, 1, 2, 3, -1, -2, -3))
+@pytest.mark.parametrize("seq", ("seq1", "seq2"))
+def test_seqdataview_value(sd_demo: SeqData, seq: str, start, stop, step):
+    sdv = sd_demo.get_view(seq)
+    expect = sd_demo._data[seq][start:stop:step]
+    sdv2 = sdv[start:stop:step]
+    got = sdv2.value
+    assert got == expect
