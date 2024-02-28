@@ -29,13 +29,13 @@ def test_seqdata_seq_str(seq1: str):
     # assert SeqData(data)._name_order != ("A", "C", "T", "G")
 
 def test_seqdata_get_view(sd_demo: SeqData):
-   got = sd_demo.get_view("seq1")
-   expect = "SeqDataView(seq='ACGT', start=0, stop=4, step=1, offset=0, seqid='seq1', seq_len=4)"
-   assert repr(got) == expect
-   
-   got = sd_demo.get_view("seq2")
-   expect = "SeqDataView(seq='GTTTGCA', start=0, stop=7, step=1, offset=0, seqid='seq2', seq_len=7)"
-   assert repr(got) == expect
+    got = sd_demo.get_view("seq1")
+    expect = f"SeqDataView(seq={sd_demo}, start=0, stop=4, step=1, offset=0, seqid='seq1', seq_len=4)"
+    assert repr(got) == expect
+
+    got = sd_demo.get_view("seq2")
+    expect = f"SeqDataView(seq={sd_demo}, start=0, stop=7, step=1, offset=0, seqid='seq2', seq_len=7)"
+    assert repr(got) == expect
 
 
 def test_get_seq_str(sd_demo: SeqData):
@@ -82,15 +82,10 @@ def test_get_iter_seqview_seqs_str(sd_demo: SeqData):
     assert tuple(got) == ("ACGT", "GTTTGCA")
 
 
-def test_seqdataview_returns_self(seq1: str):
-    assert isinstance(SeqDataView(seq1, seqid="seq1"), SeqDataView)
+def test_seqdataview_returns_self(sd_demo: SeqData):
+    sdv = sd_demo.get_view("seq1")
+    assert isinstance(sdv, SeqDataView)
 
-
-def test_seqdataview_repr():
-    seq, seqid = "ACTG", "seq1"
-    got = SeqDataView(seq, seqid=seqid)
-    expect = "SeqDataView(seq='ACTG', start=0, stop=4, step=1, offset=0, seqid='seq1', seq_len=4)"
-    assert repr(got) == expect
 
 @pytest.mark.parametrize(
     "index",
@@ -104,6 +99,6 @@ def test_seqdataview_repr():
     ],
 )
 def test_seqdataview_slice_returns_self(seq1: str, index: slice):
-    sdv = SeqDataView(seq1, seqid="seq1")
+    sdv = SeqDataView(seq1, seqid="seq1", seq_len=len(seq1))
     got = sdv[index]
     assert isinstance(got, SeqDataView)
