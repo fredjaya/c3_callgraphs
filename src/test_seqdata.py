@@ -1,6 +1,7 @@
+import numpy as np
 import pytest
 
-from seqdata import SeqData, SeqDataView
+from seqdata import SeqData, SeqDataView, seq_to_index_array
 
 
 @pytest.fixture
@@ -16,6 +17,12 @@ def simple_dict():
 @pytest.fixture
 def sd_demo(simple_dict: dict[str, str]):
     return SeqData(data=simple_dict)
+
+
+@pytest.fixture
+def int_arr():
+    arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    return np.array(arr)
 
 
 def test_seqdata_default_attributes(sd_demo: SeqData):
@@ -115,3 +122,17 @@ def test_seqdataview_value(sd_demo: SeqData, seq: str, start, stop, step):
     sdv2 = sdv[start:stop:step]
     got = sdv2.value
     assert got == expect
+
+
+@pytest.mark.parametrize(
+    "seq, moltype",
+    [("TCAG-NRYWSKMBDHV?", "dna"), ("UCAG-NRYWSKMBDHV?", "rna")],
+)
+def test_seq_to_index_array(seq, moltype, int_arr):
+    got = seq_to_index_array(seq, moltype)
+    assert np.array_equal(got, int_arr)
+
+
+def test_seq_to_index_array_default(int_arr):
+    got = seq_to_index_array("TCAG-NRYWSKMBDHV?")
+    assert np.array_equal(got, int_arr)
