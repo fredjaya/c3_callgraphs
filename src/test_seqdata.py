@@ -79,17 +79,6 @@ def test_iter_names(sd_demo: SeqData):
     assert tuple(got) == ("seq2",)
 
 
-def test_get_iter_seqview_seqs_str(sd_demo: SeqData):
-    got = sd_demo.iter_seqview_seqs_str(name_order=["seq2"])
-    assert tuple(got) == ("GTTTGCA",)
-
-    got = sd_demo.iter_seqview_seqs_str(name_order=["seq2", "seq1"])
-    assert tuple(got) == ("GTTTGCA", "ACGT")
-
-    got = sd_demo.iter_seqview_seqs_str()
-    assert tuple(got) == ("ACGT", "GTTTGCA")
-
-
 def test_seqdataview_returns_self(sd_demo: SeqData):
     sdv = sd_demo.get_view("seq1")
     assert isinstance(sdv, SeqDataView)

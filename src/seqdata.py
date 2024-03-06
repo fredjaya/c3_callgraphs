@@ -56,15 +56,12 @@ class SeqData:
         return self._alpha.from_indices(self._data[seqid][start:stop])
 
     def iter_seqs_str(self, *, name_order: list[str] = None) -> Iterator:
+        # TODO: should output SeqViewStr; iterate over SeqDataView?
         name_order = name_order or self._name_order
         yield from (self.get_seq_str(seqid=n) for n in name_order)
 
     def iter_names(self, *, name_order: list[str] = None) -> Iterator:
         yield from iter(name_order or self._name_order)
-
-    def iter_seqview_seqs_str(self, *, name_order: list[str] = None) -> Iterator:
-        name_order = name_order or self._name_order
-        yield from (str(SeqView(seq=self._data[n])) for n in name_order)
 
     def get_view(self, seqid: str):
         seq_len = len(self._data[seqid])
