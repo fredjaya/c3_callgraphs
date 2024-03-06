@@ -25,15 +25,15 @@ def _(seq: str | bytes, alphabet: CharAlphabet) -> np.ndarray:
 
 @seq_index.register
 def _(seq: np.ndarray, alphabet: CharAlphabet) -> np.ndarray:
+    # TODO: should return itself
     return alphabet.from_indices(seq)
 
 
 @dataclass(slots=True)
 class SeqData:
-    _data: dict[str, str] = field(init=False)
+    _data: dict[str, np.ndarray] = field(init=False)
     _moltype: MolType = field(init=False)
     _name_order: tuple[str] = field(init=False)
-    _idx_arr: dict[str, np.ndarray] = field(init=False)
     _alpha: CharAlphabet = field(init=False)
     data: InitVar[dict[str, str]]
     moltype: InitVar[str | None] = "dna"
@@ -42,21 +42,18 @@ class SeqData:
     def __post_init__(self, data, moltype, name_order):
         self._moltype = get_moltype(moltype)
         self._alpha = self._moltype.alphabets.degen_gapped
-        self._data = data
-        # New attr as it breaks most tests if assigned to self._data
-        # When SeqData is initialised, sequence strings are converted to moltype alphabet indicies
-        self._idx_arr = {k: seq_index(v, self._alpha) for k, v in self._data.items()}
         self._name_order = name_order or tuple(data.keys())
+        # When SeqData is initialised, sequence strings are converted to moltype alphabet indicies
+        self._data = {k: seq_index(v, self._alpha) for k, v in data.items()}
 
     def get_seq_array(self, *, seqid: str, start: int = None, stop: int = None):
-        # Let get_seq_str deal with indices
+        # TODO: Let get_seq_str deal with indices
         pass
 
     def get_seq_str(
         self, *, seqid: str, start: int = None, stop: int = None
     ) -> tuple[str]:
-        # Add idx-alpha conversion
-        return self._data[seqid][start:stop]
+        return self._alpha.from_indices(self._data[seqid][start:stop])
 
     def iter_seqs_str(self, *, name_order: list[str] = None) -> Iterator:
         name_order = name_order or self._name_order

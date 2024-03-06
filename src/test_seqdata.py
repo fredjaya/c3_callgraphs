@@ -116,9 +116,11 @@ def test_seqdataview_slice_returns_self(seq1: str, index: slice):
 @pytest.mark.parametrize("stop", (None, 0, 1, 4, -1, -4))
 @pytest.mark.parametrize("step", (None, 1, 2, 3, -1, -2, -3))
 @pytest.mark.parametrize("seq", ("seq1", "seq2"))
-def test_seqdataview_value(sd_demo: SeqData, seq: str, start, stop, step):
-    sdv = sd_demo.get_view(seq)
-    expect = sd_demo._data[seq][start:stop:step]
+def test_seqdataview_value(simple_dict: dict, seq: str, start, stop, step):
+    expect = simple_dict[seq][start:stop:step]
+    sd = SeqData(data=simple_dict)
+    # Get SeqDataView on seq
+    sdv = sd.get_view(seqid=seq)
     sdv2 = sdv[start:stop:step]
     got = sdv2.value
     assert got == expect
