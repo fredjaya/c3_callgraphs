@@ -1,7 +1,8 @@
 import numpy as np
 import pytest
+from cogent3 import get_moltype
 
-from seqdata import SeqData, SeqDataView, seq_to_index_array
+from seqdata import SeqData, SeqDataView, seq_index
 
 
 @pytest.fixture
@@ -21,8 +22,7 @@ def sd_demo(simple_dict: dict[str, str]):
 
 @pytest.fixture
 def int_arr():
-    arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-    return np.array(arr)
+    return np.arange(17, dtype=np.uint8)
 
 
 def test_seqdata_default_attributes(sd_demo: SeqData):
@@ -125,14 +125,30 @@ def test_seqdataview_value(sd_demo: SeqData, seq: str, start, stop, step):
 
 
 @pytest.mark.parametrize(
-    "seq, moltype",
+    "seq, moltype_name",
     [("TCAG-NRYWSKMBDHV?", "dna"), ("UCAG-NRYWSKMBDHV?", "rna")],
 )
-def test_seq_to_index_array(seq, moltype, int_arr):
-    got = seq_to_index_array(seq, moltype)
+def test_seq_index_str(seq, moltype_name, int_arr):
+    alpha = get_moltype(moltype_name).alphabets.degen_gapped
+    got = seq_index(seq, alpha)
     assert np.array_equal(got, int_arr)
 
 
-def test_seq_to_index_array_default(int_arr):
-    got = seq_to_index_array("TCAG-NRYWSKMBDHV?")
+@pytest.mark.parametrize(
+    "seq, moltype_name",
+    [("TCAG-NRYWSKMBDHV?", "dna"), ("UCAG-NRYWSKMBDHV?", "rna")],
+)
+def test_seq_index_idx(seq, moltype_name, int_arr):
+    alpha = get_moltype(moltype_name).alphabets.degen_gapped
+    got = seq_index(int_arr, alpha)
+    assert np.array_equal(got, seq)
+
+
+@pytest.mark.parametrize(
+    "seq, moltype_name",
+    [(b"TCAG-NRYWSKMBDHV?", "dna"), (b"UCAG-NRYWSKMBDHV?", "rna")],
+)
+def test_seq_index_bytes(seq, moltype_name, int_arr):
+    alpha = get_moltype(moltype_name).alphabets.degen_gapped
+    got = seq_index(seq, alpha)
     assert np.array_equal(got, int_arr)

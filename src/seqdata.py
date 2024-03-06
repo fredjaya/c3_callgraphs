@@ -1,33 +1,51 @@
 from dataclasses import InitVar, dataclass, field
-from typing import Iterator, Optional
+from functools import singledispatch
+from typing import Iterator, Optional, Union
 
 import numpy as np
 from cogent3 import get_moltype
+from cogent3.core.alphabet import CharAlphabet
+from cogent3.core.moltype import MolType
 from cogent3.core.sequence import SeqView
 
+T = Union[str, bytes, np.ndarray]
 
-def seq_to_index_array(seq: str, moltype: str = "dna") -> np.array:
-    alpha = get_moltype(moltype).alphabets.degen_gapped
-    indices = alpha.to_indices(seq)
-    return np.array(indices)
+
+@singledispatch
+def seq_index(seq: T, alphabet: CharAlphabet):
+    raise NotImplementedError(
+        f"{seq_index.__name__} not implemented for type {type(seq)}"
+    )
+
+
+@seq_index.register
+def _(seq: str | bytes, alphabet: CharAlphabet) -> np.ndarray:
+    return alphabet.to_indices(seq)
+
+
+@seq_index.register
+def _(seq: np.ndarray, alphabet: CharAlphabet) -> np.ndarray:
+    return alphabet.from_indices(seq)
 
 
 @dataclass(slots=True)
 class SeqData:
     _data: dict[str, str] = field(init=False)
-    _moltype: "MolType" = field(init=False)
+    _moltype: MolType = field(init=False)
     _name_order: tuple[str] = field(init=False)
+    _idx_arr: dict[str, np.ndarray] = field(init=False)
+    _alpha: CharAlphabet = field(init=False)
     data: InitVar[dict[str, str]]
     moltype: InitVar[str | None] = "dna"
     name_order: InitVar[tuple[str] | None] = None
 
     def __post_init__(self, data, moltype, name_order):
-        # Write function (external to class) takes single value and alpha, returns numpy array.
-        # Must have identical signatures
         self._moltype = get_moltype(moltype)
-        # Reference to degen alpha
-        # dict comp on every value, dict of numpy arrays
+        self._alpha = self._moltype.alphabets.degen_gapped
         self._data = data
+        # New attr as it breaks most tests if assigned to self._data
+        # When SeqData is initialised, sequence strings are converted to moltype alphabet indicies
+        self._idx_arr = {k: seq_index(v, self._alpha) for k, v in self._data.items()}
         self._name_order = name_order or tuple(data.keys())
 
     def get_seq_array(self, *, seqid: str, start: int = None, stop: int = None):
