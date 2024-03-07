@@ -127,19 +127,24 @@ def test_seq_index_str(seq, moltype_name, int_arr):
 
 @pytest.mark.parametrize(
     "seq, moltype_name",
-    [("TCAG-NRYWSKMBDHV?", "dna"), ("UCAG-NRYWSKMBDHV?", "rna")],
-)
-def test_seq_index_idx(seq, moltype_name, int_arr):
-    alpha = get_moltype(moltype_name).alphabets.degen_gapped
-    got = seq_index(int_arr, alpha)
-    assert np.array_equal(got, seq)
-
-
-@pytest.mark.parametrize(
-    "seq, moltype_name",
     [(b"TCAG-NRYWSKMBDHV?", "dna"), (b"UCAG-NRYWSKMBDHV?", "rna")],
 )
 def test_seq_index_bytes(seq, moltype_name, int_arr):
     alpha = get_moltype(moltype_name).alphabets.degen_gapped
     got = seq_index(seq, alpha)
     assert np.array_equal(got, int_arr)
+
+
+@pytest.mark.parametrize("moltype_name", ("dna", "rna"))
+def test_seq_index_arr(moltype_name, int_arr):
+    # Should return the same thing
+    alpha = get_moltype(moltype_name).alphabets.degen_gapped
+    got = seq_index(int_arr, alpha)
+    assert np.array_equal(got, int_arr)
+
+
+@pytest.mark.parametrize("seq", ("seq1", "seq2"))
+def test_get_seq_array(simple_dict, seq):
+    expect = np.array(simple_dict[seq])
+    sd = SeqData(data=simple_dict)
+    got = sd.get_seq_array(seqid=seq)

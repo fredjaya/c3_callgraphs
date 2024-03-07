@@ -25,8 +25,7 @@ def _(seq: str | bytes, alphabet: CharAlphabet) -> np.ndarray:
 
 @seq_index.register
 def _(seq: np.ndarray, alphabet: CharAlphabet) -> np.ndarray:
-    # TODO: should return itself
-    return alphabet.from_indices(seq)
+    return seq
 
 
 @dataclass(slots=True)
@@ -47,8 +46,7 @@ class SeqData:
         self._data = {k: seq_index(v, self._alpha) for k, v in data.items()}
 
     def get_seq_array(self, *, seqid: str, start: int = None, stop: int = None):
-        # TODO: Let get_seq_str deal with indices
-        pass
+        return np.array(self.get_seq_str(seqid=seqid))
 
     def get_seq_str(
         self, *, seqid: str, start: int = None, stop: int = None
