@@ -1,5 +1,5 @@
 from dataclasses import InitVar, dataclass, field
-from functools import singledispatch
+from functools import singledispatch, singledispatchmethod
 from typing import Iterator, Optional, Union
 
 import numpy as np
@@ -12,7 +12,7 @@ T = Union[str, bytes, np.ndarray]
 
 
 @singledispatch
-def seq_index(seq: T, alphabet: CharAlphabet):
+def seq_index(seq: T, alphabet: CharAlphabet) -> np.ndarray:
     raise NotImplementedError(
         f"{seq_index.__name__} not implemented for type {type(seq)}"
     )
@@ -26,6 +26,21 @@ def _(seq: str | bytes, alphabet: CharAlphabet) -> np.ndarray:
 @seq_index.register
 def _(seq: np.ndarray, alphabet: CharAlphabet) -> np.ndarray:
     return seq
+
+
+class SeqDataView(SeqView):
+    # self.seq: SeqData
+
+    def _checked_seq_len(self, seq, seq_len) -> int:
+        assert seq_len is not None
+        return seq_len
+
+    @property
+    def value(self) -> str:
+        raw = self.seq.get_seq_str(
+            seqid=self.seqid, start=self.parent_start, stop=self.parent_stop
+        )
+        return raw if self.step == 1 else raw[:: self.step]
 
 
 @dataclass(slots=True)
@@ -45,6 +60,20 @@ class SeqData:
         # When SeqData is initialised, sequence strings are converted to moltype alphabet indicies
         self._data = {k: seq_index(v, self._alpha) for k, v in data.items()}
 
+    @singledispatchmethod
+    def __getitem__(self, value: str | int) -> SeqDataView:
+        """Returns a SeqDataView of"""
+        raise NotImplementedError(f"__getitem__ not implemented for {type(value)}")
+
+    @__getitem__.register(str)
+    def _(self, value: str) -> SeqDataView:
+        return self.get_seq_view(seqid=value)
+
+    @__getitem__.register(int)
+    def _(self, value: int) -> SeqDataView:
+        seqid = self._name_order[value]
+        return self.get_seq_view(seqid=seqid)
+
     def get_seq_array(self, *, seqid: str, start: int = None, stop: int = None):
         return np.array(self.get_seq_str(seqid=seqid))
 
@@ -59,23 +88,9 @@ class SeqData:
         yield from (self.get_seq_str(seqid=n) for n in name_order)
 
     def iter_names(self, *, name_order: list[str] = None) -> Iterator:
+        # Need to check set of name_orders
         yield from iter(name_order or self._name_order)
 
-    def get_view(self, seqid: str):
+    def get_seq_view(self, seqid: str) -> SeqDataView:
         seq_len = len(self._data[seqid])
         return SeqDataView(self, seqid=seqid, seq_len=seq_len)
-
-
-class SeqDataView(SeqView):
-    # self.seq: SeqData
-
-    def _checked_seq_len(self, seq, seq_len) -> int:
-        assert seq_len is not None
-        return seq_len
-
-    @property
-    def value(self) -> str:
-        raw = self.seq.get_seq_str(
-            seqid=self.seqid, start=self.parent_start, stop=self.parent_stop
-        )
-        return raw if self.step == 1 else raw[:: self.step]

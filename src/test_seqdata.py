@@ -148,3 +148,18 @@ def test_get_seq_array(simple_dict, seq):
     expect = np.array(simple_dict[seq])
     sd = SeqData(data=simple_dict)
     got = sd.get_seq_array(seqid=seq)
+
+
+@pytest.mark.parametrize("seq", ("seq1", "seq2"))
+def test_getitem_str(sd_demo, seq):
+    got = sd_demo[seq]
+    assert got.seq == sd_demo
+    assert got.seqid == seq
+
+
+@pytest.mark.parametrize("idx", (0, 1))
+def test_getitem_int(simple_dict, idx):
+    sd = SeqData(simple_dict)
+    got = sd[idx]
+    assert got.seq == sd
+    assert got.seqid == list(simple_dict)[idx]
