@@ -28,6 +28,33 @@ def _(seq: np.ndarray, alphabet: CharAlphabet) -> np.ndarray:
     return seq
 
 
+@singledispatch
+def process_name_order(correct_names: dict | tuple | list, name_order: tuple) -> tuple:
+    """dict (data) for constructor; tuple for SeqData instance"""
+    raise NotImplementedError(
+        f"process_name_order not implemented for type {type(correct_names)}"
+    )
+
+
+@process_name_order.register
+def _(correct_names: dict, name_order: tuple) -> tuple:
+    keys = correct_names.keys()
+    if name_order is None:
+        return tuple(keys)
+    if set(name_order) == set(keys):
+        return name_order
+    raise ValueError("name_order does not match dictionary keys")
+
+
+@process_name_order.register
+def _(correct_names: tuple | list, name_order: tuple) -> tuple:
+    if name_order is None:
+        return correct_names
+    if set(name_order) <= set(correct_names):
+        return tuple(name_order)
+    raise ValueError("some names do not match")
+
+
 class SeqDataView(SeqView):
     # self.seq: SeqData
 
@@ -56,9 +83,7 @@ class SeqData:
     def __post_init__(self, data, moltype, name_order):
         self._moltype = get_moltype(moltype)
         self._alpha = self._moltype.alphabets.degen_gapped
-        if name_order:
-            assert set(name_order) == set(data.keys())
-        self._name_order = name_order or tuple(data.keys())
+        self._name_order = process_name_order(data, name_order)
         # When SeqData is initialised, sequence strings are converted to moltype alphabet indicies
         self._data = {k: seq_index(v, self._alpha) for k, v in data.items()}
 
@@ -89,9 +114,10 @@ class SeqData:
         name_order = name_order or self._name_order
         yield from (self.get_seq_str(seqid=n) for n in name_order)
 
-    def iter_names(self, *, name_order: list[str] = None) -> Iterator:
+    def iter_names(self, *, name_order: tuple[str] = None) -> Iterator:
         # Need to check set of name_orders
-        yield from iter(name_order or self._name_order)
+        seqids = process_name_order(self._name_order, name_order)
+        yield from iter(seqids)
 
     def get_seq_view(self, seqid: str) -> SeqDataView:
         seq_len = len(self._data[seqid])

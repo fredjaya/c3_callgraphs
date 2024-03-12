@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from cogent3 import get_moltype
 
-from seqdata import SeqData, SeqDataView, seq_index
+from seqdata import SeqData, SeqDataView, process_name_order, seq_index
 
 
 @pytest.fixture
@@ -31,9 +31,40 @@ def test_seqdata_default_attributes(sd_demo: SeqData):
 
 
 def test_seqdata_seq_if_str(seq1: str):
-    with pytest.raises(AttributeError):
+    with pytest.raises(NotImplementedError):
         SeqData(seq1)
     # assert SeqData(data)._name_order != ("A", "C", "T", "G")
+
+
+def test_process_name_order_dict_happy(simple_dict):
+    got = process_name_order(simple_dict, None)
+    assert got == ("seq1", "seq2")
+    got = process_name_order(simple_dict, name_order=("seq2", "seq1"))
+    assert got == ("seq2", "seq1")
+
+
+@pytest.mark.parametrize(
+    "bad_names", [("bad"), ("bad",), ("bad2", "bad1"), ("seq1",), "seq1"]
+)
+def test_process_name_order_dict_bad(simple_dict, bad_names):
+    with pytest.raises(ValueError):
+        process_name_order(simple_dict, bad_names)
+
+
+@pytest.mark.parametrize(
+    "names", (["seq2"], ["seq2", "seq1"], ("seq2",), ("seq2", "seq1"))
+)
+def test_name_order_tuple_list_happy(names, sd_demo):
+    correct_names = sd_demo._name_order
+    got = process_name_order(correct_names, names)
+    assert got == tuple(names)
+
+
+@pytest.mark.parametrize("bad_names", [("bad"), ("bad",), ("bad2", "bad1"), "seq1"])
+def test_name_order_tuple_list_bad(bad_names, sd_demo):
+    correct_names = sd_demo._name_order
+    with pytest.raises(ValueError):
+        process_name_order(correct_names, bad_names)
 
 
 @pytest.mark.parametrize(
@@ -45,7 +76,7 @@ def test_name_order_init(simple_dict, bad_names):
     sd = SeqData(simple_dict, name_order=("seq2", "seq1"))
     assert sd._name_order == ("seq2", "seq1")
 
-    with pytest.raises(AssertionError):
+    with pytest.raises(ValueError):
         SeqData(simple_dict, name_order=bad_names)
 
 
