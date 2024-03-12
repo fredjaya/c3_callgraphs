@@ -36,8 +36,21 @@ def test_seqdata_seq_if_str(seq1: str):
     # assert SeqData(data)._name_order != ("A", "C", "T", "G")
 
 
-def test_seqdata_get_view(sd_demo: SeqData):
-    got = sd_demo.get_view("seq1")
+@pytest.mark.parametrize(
+    "bad_names", [("bad"), ("bad",), ("bad2", "bad1"), ("seq1",), "seq1"]
+)
+def test_name_order_init(simple_dict, bad_names):
+    sd = SeqData(simple_dict)
+    assert sd._name_order == ("seq1", "seq2")
+    sd = SeqData(simple_dict, name_order=("seq2", "seq1"))
+    assert sd._name_order == ("seq2", "seq1")
+
+    with pytest.raises(AssertionError):
+        SeqData(simple_dict, name_order=bad_names)
+
+
+def test_seqdata_get_seq_view(sd_demo: SeqData):
+    got = sd_demo.get_seq_view("seq1")
     expect = f"SeqDataView(seq={sd_demo}, start=0, stop=4, step=1, offset=0, seqid='seq1', seq_len=4)"
     assert repr(got) == expect
 
@@ -69,6 +82,8 @@ def test_iter_seqs_str(sd_demo: SeqData):
 
 
 def test_iter_names(sd_demo: SeqData):
+    # TODO: You can input name_order=["rubbish", "doesn't exist"] and outputs
+    # those even though it doesn't exist
     got = sd_demo.iter_names()
     assert tuple(got) == ("seq1", "seq2")
 

@@ -56,6 +56,8 @@ class SeqData:
     def __post_init__(self, data, moltype, name_order):
         self._moltype = get_moltype(moltype)
         self._alpha = self._moltype.alphabets.degen_gapped
+        if name_order:
+            assert set(name_order) == set(data.keys())
         self._name_order = name_order or tuple(data.keys())
         # When SeqData is initialised, sequence strings are converted to moltype alphabet indicies
         self._data = {k: seq_index(v, self._alpha) for k, v in data.items()}
