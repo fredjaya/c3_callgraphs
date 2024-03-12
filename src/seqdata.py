@@ -104,21 +104,18 @@ class SeqData:
     def get_seq_array(self, *, seqid: str, start: int = None, stop: int = None):
         return np.array(self.get_seq_str(seqid=seqid))
 
-    def get_seq_str(
-        self, *, seqid: str, start: int = None, stop: int = None
-    ) -> tuple[str]:
+    def get_seq_str(self, *, seqid: str, start: int = None, stop: int = None) -> str:
         return self._alpha.from_indices(self._data[seqid][start:stop])
 
-    def iter_seqs_str(self, *, name_order: list[str] = None) -> Iterator:
-        # TODO: should output SeqViewStr; iterate over SeqDataView?
-        name_order = name_order or self._name_order
-        yield from (self.get_seq_str(seqid=n) for n in name_order)
-
     def iter_names(self, *, name_order: tuple[str] = None) -> Iterator:
-        # Need to check set of name_orders
-        seqids = process_name_order(self._name_order, name_order)
-        yield from iter(seqids)
+        yield from process_name_order(self._name_order, name_order)
 
     def get_seq_view(self, seqid: str) -> SeqDataView:
         seq_len = len(self._data[seqid])
         return SeqDataView(self, seqid=seqid, seq_len=seq_len)
+
+    def iter_seq_view(self, *, name_order: tuple[str] = None) -> Iterator:
+        # Should this output SeqView or SeqDataView?
+        seqids = process_name_order(self._name_order, name_order)
+        for seqid in seqids:
+            yield self.get_seq_view(seqid=seqid)

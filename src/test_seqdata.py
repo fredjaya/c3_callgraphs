@@ -85,7 +85,7 @@ def test_seqdata_get_seq_view(sd_demo: SeqData):
     expect = f"SeqDataView(seq={sd_demo}, start=0, stop=4, step=1, offset=0, seqid='seq1', seq_len=4)"
     assert repr(got) == expect
 
-    got = sd_demo.get_view("seq2")
+    got = sd_demo.get_seq_view("seq2")
     expect = f"SeqDataView(seq={sd_demo}, start=0, stop=7, step=1, offset=0, seqid='seq2', seq_len=7)"
     assert repr(got) == expect
 
@@ -101,20 +101,7 @@ def test_get_seq_str(sd_demo: SeqData):
         sd_demo.get_seq_str()
 
 
-def test_iter_seqs_str(sd_demo: SeqData):
-    got = sd_demo.iter_seqs_str(name_order=["seq2"])
-    assert tuple(got) == ("GTTTGCA",)
-
-    got = sd_demo.iter_seqs_str(name_order=["seq2", "seq1"])
-    assert tuple(got) == ("GTTTGCA", "ACGT")
-
-    got = sd_demo.iter_seqs_str()
-    assert tuple(got) == ("ACGT", "GTTTGCA")
-
-
 def test_iter_names(sd_demo: SeqData):
-    # TODO: You can input name_order=["rubbish", "doesn't exist"] and outputs
-    # those even though it doesn't exist
     got = sd_demo.iter_names()
     assert tuple(got) == ("seq1", "seq2")
 
@@ -124,9 +111,21 @@ def test_iter_names(sd_demo: SeqData):
     got = sd_demo.iter_names(name_order=["seq2"])
     assert tuple(got) == ("seq2",)
 
+    with pytest.raises(ValueError):
+        sd_demo.iter_names(name_order="bad")
+
+
+
+@pytest.mark.parametrize("idx, seq", ([0, "seq1"], [1, "seq2"]))
+def test_iter_seq_view(sd_demo: SeqData, idx, seq):
+    got = tuple(sd_demo.iter_seq_view())
+    assert len(got) == 2
+    assert got[idx].seq == sd_demo
+    assert got[idx].seqid == seq
+
 
 def test_seqdataview_returns_self(sd_demo: SeqData):
-    sdv = sd_demo.get_view("seq1")
+    sdv = sd_demo.get_seq_view("seq1")
     assert isinstance(sdv, SeqDataView)
 
 
@@ -155,7 +154,7 @@ def test_seqdataview_value(simple_dict: dict, seq: str, start, stop, step):
     expect = simple_dict[seq][start:stop:step]
     sd = SeqData(data=simple_dict)
     # Get SeqDataView on seq
-    sdv = sd.get_view(seqid=seq)
+    sdv = sd.get_seq_view(seqid=seq)
     sdv2 = sdv[start:stop:step]
     got = sdv2.value
     assert got == expect
