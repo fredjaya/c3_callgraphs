@@ -25,11 +25,13 @@ def _(seq: str | bytes, alphabet: CharAlphabet) -> np.ndarray:
 
 @seq_index.register
 def _(seq: np.ndarray, alphabet: CharAlphabet) -> np.ndarray:
-    return seq
+    return seq.astype(alphabet.array_type)
 
 
 @singledispatch
-def process_name_order(correct_names: dict | tuple | list, name_order: tuple) -> tuple:
+def process_name_order(
+    correct_names: Union[dict, tuple, list], name_order: tuple
+) -> tuple:
     """dict (data) for constructor; tuple for SeqData instance"""
     raise NotImplementedError(
         f"process_name_order not implemented for type {type(correct_names)}"

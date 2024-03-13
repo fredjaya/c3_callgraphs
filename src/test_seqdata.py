@@ -111,9 +111,9 @@ def test_iter_names(sd_demo: SeqData):
     got = sd_demo.iter_names(name_order=["seq2"])
     assert tuple(got) == ("seq2",)
 
+    got = sd_demo.iter_names(name_order=("bad", "bad2"))
     with pytest.raises(ValueError):
-        sd_demo.iter_names(name_order="bad")
-
+        tuple(got)
 
 
 @pytest.mark.parametrize("idx, seq", ([0, "seq1"], [1, "seq2"]))
@@ -182,10 +182,10 @@ def test_seq_index_bytes(seq, moltype_name, int_arr):
 
 @pytest.mark.parametrize("moltype_name", ("dna", "rna"))
 def test_seq_index_arr(moltype_name, int_arr):
-    # Should return the same thing
     alpha = get_moltype(moltype_name).alphabets.degen_gapped
     got = seq_index(int_arr, alpha)
     assert np.array_equal(got, int_arr)
+    assert got.dtype == int_arr.dtype
 
 
 @pytest.mark.parametrize("seq", ("seq1", "seq2"))
@@ -193,6 +193,7 @@ def test_get_seq_array(simple_dict, seq):
     expect = np.array(simple_dict[seq])
     sd = SeqData(data=simple_dict)
     got = sd.get_seq_array(seqid=seq)
+    assert got == expect
 
 
 @pytest.mark.parametrize("seq", ("seq1", "seq2"))
