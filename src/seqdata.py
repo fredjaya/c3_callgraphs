@@ -109,14 +109,20 @@ class SeqData:
         seqid = self._name_order[value]
         return self.get_seq_view(seqid=seqid)
 
-    def get_seq_array(self, *, seqid: str, start: int = None, stop: int = None):
+    def get_seq_array(
+        self, *, seqid: str, start: int = None, stop: int = None
+    ) -> np.ndarray:
         return self._data[seqid][start:stop]
 
     def get_seq_str(self, *, seqid: str, start: int = None, stop: int = None) -> str:
-        return self._alpha.from_indices(self._data[seqid][start:stop])
+        return self._alpha.from_indices(
+            self.get_seq_array(seqid=seqid, start=start, stop=stop)
+        )
 
-    # def get_seq_bytes()
-    #   return get_seq_str().encode("utf8")
+    def get_seq_bytes(
+        self, *, seqid: str, start: int = None, stop: int = None
+    ) -> bytes:
+        return self.get_seq_str(seqid=seqid, start=start, stop=stop).encode("utf8")
 
     def iter_names(self, *, name_order: tuple[str] = None) -> Iterator:
         yield from process_name_order(self._name_order, name_order)

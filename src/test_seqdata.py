@@ -90,13 +90,18 @@ def test_seqdata_get_seq_view(sd_demo: SeqData):
     assert repr(got) == expect
 
 
-def test_get_seq_str(sd_demo: SeqData):
-    got = sd_demo.get_seq_str(seqid="seq1", start=1, stop=4)
-    assert got == "CGT"
+@pytest.mark.parametrize("seq", ("seq1", "seq2"))
+@pytest.mark.parametrize("start", (None, -1, 0, 1, 4))
+@pytest.mark.parametrize("stop", (None, -1, 0, 1, 4))
+def test_get_seq_str(simple_dict, seq, start, stop):
+    # slicing should be tested in test_get_seq_array
+    expect = simple_dict[seq][start:stop]
+    sd = SeqData(data=simple_dict)
+    got = sd.get_seq_str(seqid=seq, start=start, stop=stop)
+    assert expect == got
 
-    got = sd_demo.get_seq_str(seqid="seq1")
-    assert got == "ACGT"
 
+def test_get_seq_str_empty(sd_demo: SeqData):
     with pytest.raises(TypeError):
         sd_demo.get_seq_str()
 
@@ -189,6 +194,7 @@ def test_seq_index_arr(moltype_name, int_arr):
 
 
 def test_get_seq_array(simple_dict):
+    # TODO: slicing should be tested here, not get_seq_str
     # seq1
     expect = np.array([2, 1, 3, 0], dtype="uint8")
     sd = SeqData(data=simple_dict)
@@ -200,6 +206,12 @@ def test_get_seq_array(simple_dict):
     sd = SeqData(data=simple_dict)
     got = sd.get_seq_array(seqid="seq2")
     assert np.array_equal(got, expect)
+
+
+def test_get_seq_bytes(sd_demo: SeqData):
+    # getting seqid and slicing tested in test_get_seq_str
+    got = sd_demo.get_seq_bytes(seqid="seq1")
+    assert isinstance(got, bytes)
 
 
 @pytest.mark.parametrize("seq", ("seq1", "seq2"))
