@@ -59,6 +59,7 @@ def _(correct_names: tuple | list, name_order: tuple) -> tuple:
 
 class SeqDataView(SeqView):
     # self.seq: SeqData
+    # TODO: Add property to get array (array_value) + tests
 
     def _checked_seq_len(self, seq, seq_len) -> int:
         assert seq_len is not None
@@ -71,9 +72,14 @@ class SeqDataView(SeqView):
         )
         return raw if self.step == 1 else raw[:: self.step]
 
+    # __array__ returns self.array_value
+    # __bytes__
 
-@dataclass(slots=True)
+
+@dataclass
 class SeqData:
+    # Separate AlignedSeqData for alignments (need to store gaps somehow)
+    # ABC and interface
     _data: dict[str, np.ndarray] = field(init=False)
     _moltype: MolType = field(init=False)
     _name_order: tuple[str] = field(init=False)
@@ -104,10 +110,13 @@ class SeqData:
         return self.get_seq_view(seqid=seqid)
 
     def get_seq_array(self, *, seqid: str, start: int = None, stop: int = None):
-        return np.array(self.get_seq_str(seqid=seqid))
+        return self._data[seqid][start:stop]
 
     def get_seq_str(self, *, seqid: str, start: int = None, stop: int = None) -> str:
         return self._alpha.from_indices(self._data[seqid][start:stop])
+
+    # def get_seq_bytes()
+    #   return get_seq_str().encode("utf8")
 
     def iter_names(self, *, name_order: tuple[str] = None) -> Iterator:
         yield from process_name_order(self._name_order, name_order)

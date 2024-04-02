@@ -188,12 +188,18 @@ def test_seq_index_arr(moltype_name, int_arr):
     assert got.dtype == int_arr.dtype
 
 
-@pytest.mark.parametrize("seq", ("seq1", "seq2"))
-def test_get_seq_array(simple_dict, seq):
-    expect = np.array(simple_dict[seq])
+def test_get_seq_array(simple_dict):
+    # seq1
+    expect = np.array([2, 1, 3, 0], dtype="uint8")
     sd = SeqData(data=simple_dict)
-    got = sd.get_seq_array(seqid=seq)
-    assert got == expect
+    got = sd.get_seq_array(seqid="seq1")
+    assert np.array_equal(got, expect)
+
+    # seq2
+    expect = np.array([3, 0, 0, 0, 3, 1, 2], dtype="uint8")
+    sd = SeqData(data=simple_dict)
+    got = sd.get_seq_array(seqid="seq2")
+    assert np.array_equal(got, expect)
 
 
 @pytest.mark.parametrize("seq", ("seq1", "seq2"))
