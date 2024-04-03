@@ -59,7 +59,6 @@ def _(correct_names: tuple | list, name_order: tuple) -> tuple:
 
 class SeqDataView(SeqView):
     # self.seq: SeqData
-    # TODO: Add property to get array (array_value) + tests
 
     def _checked_seq_len(self, seq, seq_len) -> int:
         assert seq_len is not None
@@ -72,8 +71,25 @@ class SeqDataView(SeqView):
         )
         return raw if self.step == 1 else raw[:: self.step]
 
-    # __array__ returns self.array_value
-    # __bytes__
+    @property
+    def array_value(self) -> np.ndarray:
+        raw = self.seq.get_seq_array(
+            seqid=self.seqid, start=self.parent_start, stop=self.parent_stop
+        )
+        return raw if self.step == 1 else raw[:: self.step]
+
+    @property
+    def bytes_value(self) -> bytes:
+        raw = self.seq.get_seq_bytes(
+            seqid=self.seqid, start=self.parent_start, stop=self.parent_stop
+        )
+        return raw if self.step == 1 else raw[:: self.step]
+
+    def __array__(self):
+        return self.array_value
+
+    def __bytes__(self):
+        return self.bytes_value
 
 
 @dataclass
@@ -97,7 +113,6 @@ class SeqData:
 
     @singledispatchmethod
     def __getitem__(self, value: str | int) -> SeqDataView:
-        """Returns a SeqDataView of"""
         raise NotImplementedError(f"__getitem__ not implemented for {type(value)}")
 
     @__getitem__.register(str)

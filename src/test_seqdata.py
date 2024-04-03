@@ -16,6 +16,11 @@ def simple_dict():
 
 
 @pytest.fixture
+def simple_dict_arr():
+    return dict(seq1=np.array([2, 1, 3, 0]), seq2=np.array([3, 0, 0, 0, 3, 1, 2]))
+
+
+@pytest.fixture
 def sd_demo(simple_dict: dict[str, str]):
     return SeqData(data=simple_dict)
 
@@ -23,6 +28,11 @@ def sd_demo(simple_dict: dict[str, str]):
 @pytest.fixture
 def int_arr():
     return np.arange(17, dtype=np.uint8)
+
+
+@pytest.fixture
+def sdv_s2(sd_demo: SeqData) -> SeqDataView:
+    return sd_demo.get_seq_view(seqid="seq2")
 
 
 def test_seqdata_default_attributes(sd_demo: SeqData):
@@ -129,42 +139,6 @@ def test_iter_seq_view(sd_demo: SeqData, idx, seq):
     assert got[idx].seqid == seq
 
 
-def test_seqdataview_returns_self(sd_demo: SeqData):
-    sdv = sd_demo.get_seq_view("seq1")
-    assert isinstance(sdv, SeqDataView)
-
-
-@pytest.mark.parametrize(
-    "index",
-    [
-        slice(1, 3, None),
-        slice(None, 2, None),
-        slice(3, None, None),
-        slice(0, 10, None),
-        slice(None, None, 2),
-        slice(None),
-    ],
-)
-def test_seqdataview_slice_returns_self(seq1: str, index: slice):
-    sdv = SeqDataView(seq1, seqid="seq1", seq_len=len(seq1))
-    got = sdv[index]
-    assert isinstance(got, SeqDataView)
-
-
-@pytest.mark.parametrize("start", (None, 0, 1, 4, -1, -4))
-@pytest.mark.parametrize("stop", (None, 0, 1, 4, -1, -4))
-@pytest.mark.parametrize("step", (None, 1, 2, 3, -1, -2, -3))
-@pytest.mark.parametrize("seq", ("seq1", "seq2"))
-def test_seqdataview_value(simple_dict: dict, seq: str, start, stop, step):
-    expect = simple_dict[seq][start:stop:step]
-    sd = SeqData(data=simple_dict)
-    # Get SeqDataView on seq
-    sdv = sd.get_seq_view(seqid=seq)
-    sdv2 = sdv[start:stop:step]
-    got = sdv2.value
-    assert got == expect
-
-
 @pytest.mark.parametrize(
     "seq, moltype_name",
     [("TCAG-NRYWSKMBDHV?", "dna"), ("UCAG-NRYWSKMBDHV?", "rna")],
@@ -227,3 +201,81 @@ def test_getitem_int(simple_dict, idx):
     got = sd[idx]
     assert got.seq == sd
     assert got.seqid == list(simple_dict)[idx]
+
+
+# SeqDataView tests for returning an instance of itself
+def test_seqdataview_returns_self(sd_demo: SeqData):
+    sdv = sd_demo.get_seq_view("seq1")
+    assert isinstance(sdv, SeqDataView)
+
+
+@pytest.mark.parametrize(
+    "index",
+    [
+        slice(1, 3, None),
+        slice(None, 2, None),
+        slice(3, None, None),
+        slice(0, 10, None),
+        slice(None, None, 2),
+        slice(None),
+    ],
+)
+def test_seqdataview_slice_returns_self(seq1: str, index: slice):
+    sdv = SeqDataView(seq1, seqid="seq1", seq_len=len(seq1))
+    got = sdv[index]
+    assert isinstance(got, SeqDataView)
+
+
+# SeqDataView tests for value properties
+@pytest.mark.parametrize("start", (None, 0, 1, 4, -1, -4))
+@pytest.mark.parametrize("stop", (None, 0, 1, 4, -1, -4))
+@pytest.mark.parametrize("step", (None, 1, 2, 3, -1, -2, -3))
+def test_seqdataview_value(simple_dict: dict, start, stop, step):
+    seq = "seq2"
+    expect = simple_dict[seq][start:stop:step]
+    sd = SeqData(data=simple_dict)
+    # Get SeqDataView on seq
+    sdv = sd.get_seq_view(seqid=seq)
+    sdv2 = sdv[start:stop:step]
+    got = sdv2.value
+    assert got == expect
+
+
+@pytest.mark.parametrize("start", (None, 0, 1, 4, -1, -4))
+@pytest.mark.parametrize("stop", (None, 0, 1, 4, -1, -4))
+@pytest.mark.parametrize("step", (None, 1, 2, 3, -1, -2, -3))
+def test_array_value(simple_dict_arr: dict, start, stop, step):
+    seq = "seq2"
+    expect = simple_dict_arr[seq][start:stop:step]
+    sd = SeqData(data=simple_dict_arr)
+    # Get SeqDataView on seq
+    sdv = sd.get_seq_view(seqid=seq)
+    got = sdv.array_value[start:stop:step]
+    assert np.array_equal(got, expect)
+
+
+@pytest.mark.parametrize("start", (None, 0, 1, 4, -1, -4))
+@pytest.mark.parametrize("stop", (None, 0, 1, 4, -1, -4))
+@pytest.mark.parametrize("step", (None, 1, 2, 3, -1, -2, -3))
+def test_bytes_value(simple_dict: dict, start, stop, step):
+    seq = "seq2"
+    expect = simple_dict[seq][start:stop:step]
+    expect = expect.encode("utf8")
+    sd = SeqData(data=simple_dict)
+    # Get SeqDataView on seq
+    sdv = sd.get_seq_view(seqid=seq)
+    got = sdv.bytes_value[start:stop:step]
+    assert expect == got
+
+
+# SeqDataView tests for special methods that access "value" properties
+def test_array(sdv_s2: SeqDataView):
+    expect = sdv_s2.array_value
+    got = np.array(sdv_s2)
+    assert np.array_equal(expect, got)
+
+
+def test_bytes(sdv_s2: SeqDataView):
+    expect = sdv_s2.bytes_value
+    got = bytes(sdv_s2)
+    assert expect == got
