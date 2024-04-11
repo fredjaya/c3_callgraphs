@@ -202,20 +202,36 @@ class AlignedData:
 
         return cls(seqs=seqs, gaps=gaps, moltype=moltype, name_order=name_order)
     
-    # TODO: Write temp method get_raw_data(name) -> tuple[numpy.array, numpy.array]
-    # Support str/array/bytes as well
-    # get_seq_gaps
-    # get_seq_str
+    def get_seq_array(
+        self, *, seqid: str, start: int = None, stop: int = None
+    ) -> numpy.ndarray:
+        return self.seqs[seqid][start:stop]
+
+    def get_seq_str(self, *, seqid: str, start: int = None, stop: int = None) -> str:
+        return self._alpha.from_indices(
+            self.get_seq_array(seqid=seqid, start=start, stop=stop)
+        )
+
+    def get_seq_bytes(
+        self, *, seqid: str, start: int = None, stop: int = None
+    ) -> bytes:
+        return self.get_seq_str(seqid=seqid, start=start, stop=stop).encode("utf8")
+    
 
 class AlignedDataView(SeqDataView):
     # methods for outputting different data types will need to be overridden
+
+    def value():
+        pass
+    
     pass
 
     # TODO: 2.
     # def value() 
-    # if not sliced return original string
+        # if not sliced return original string
     # _convert.gap_coords_to_seq and vice versa
-    # raw_seq and raw_gaps from AlignedSeqData
+    # raw_seqs and raw_gaps from AlignedData
+    # Method on AlignedData - get seq and get gaps
     # pass seqid only, for now 
 
     # TODO: 3. def array_value() -> index and gaps
@@ -223,4 +239,3 @@ class AlignedDataView(SeqDataView):
 
 
 # TODO: Look at GapPosition tests
-# TODO: 1. Write test to create aligneddataset instance using from_strings

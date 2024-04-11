@@ -35,6 +35,11 @@ def sdv_s2(sd_demo: SeqData) -> SeqDataView:
     return sd_demo.get_seq_view(seqid="seq2")
 
 
+@pytest.fixture
+def aligned_dict():
+    return dict(seq1="ACG--T", seq2="-CGAAT")
+
+
 def test_seqdata_default_attributes(sd_demo: SeqData):
     assert sd_demo._name_order == ("seq1", "seq2")
     assert sd_demo._moltype.label == "dna"
@@ -281,13 +286,38 @@ def test_bytes(sdv_s2: SeqDataView):
     assert expect == got
 
 # AlignedSeqData tests
+# TODO: How to test AlignedData.from_strings correctly?
+
 def test_from_string_unequal_seqlens():
     data = dict(seq1="A-A", seq2="AAAAAAA--")
     with pytest.raises(ValueError):
         AlignedData.from_strings(data=data)
 
-def test_create_from_string():
-    data = dict(seq1="ACG--T", seq2="-CGAAT")
-    got = AlignedData.from_strings(data=data)
+def test_aligned_from_string_returns_self(aligned_dict):
+    got = AlignedData.from_strings(data=aligned_dict)
     assert isinstance(got, AlignedData)
     # assert gap lengths
+
+
+# AlignedData get_seq_* tests
+def test_aligned_get_seq_array(aligned_dict):
+    expect = np.array([2, 1, 3, 0], dtype="uint8")
+    ad = AlignedData.from_strings(data=aligned_dict)
+    got = ad.get_seq_array(seqid="seq1")
+    assert np.array_equal(got, expect)
+
+@pytest.mark.parametrize("seq", ("seq1", "seq2"))
+@pytest.mark.parametrize("start", (None, -1, 0, 1, 4))
+@pytest.mark.parametrize("stop", (None, -1, 0, 1, 4))
+def test_aligned_get_seq_str(aligned_dict, seq, start, stop):
+    # slicing should be tested in test_aligned_get_seq_array
+    expect = aligned_dict[seq][start:stop]
+    sd = SeqData(data=aligned_dict)
+    got = sd.get_seq_str(seqid=seq, start=start, stop=stop)
+    assert expect == got
+
+
+def test_aligned_get_seq_bytes(aligned_dict):
+    ad = AlignedData.from_strings(aligned_dict)
+    got = ad.get_seq_bytes(seqid="seq1")
+    assert isinstance(got, bytes)
