@@ -1,30 +1,31 @@
 from dataclasses import InitVar, dataclass, field
 from functools import singledispatch, singledispatchmethod
-from typing import Iterator, Optional, Union
+from typing import Iterator, Optional, Self, Union
 
-import numpy as np
+import numpy as numpy
 from cogent3 import get_moltype
 from cogent3.core.alphabet import CharAlphabet
 from cogent3.core.moltype import MolType
 from cogent3.core.sequence import SeqView
+import _convert as convert
 
-T = Union[str, bytes, np.ndarray]
+T = Union[str, bytes, numpy.ndarray]
 
 
 @singledispatch
-def seq_index(seq: T, alphabet: CharAlphabet) -> np.ndarray:
+def seq_index(seq: T, alphabet: CharAlphabet) -> numpy.ndarray:
     raise NotImplementedError(
         f"{seq_index.__name__} not implemented for type {type(seq)}"
     )
 
 
 @seq_index.register
-def _(seq: str | bytes, alphabet: CharAlphabet) -> np.ndarray:
+def _(seq: str | bytes, alphabet: CharAlphabet) -> numpy.ndarray:
     return alphabet.to_indices(seq)
 
 
 @seq_index.register
-def _(seq: np.ndarray, alphabet: CharAlphabet) -> np.ndarray:
+def _(seq: numpy.ndarray, alphabet: CharAlphabet) -> numpy.ndarray:
     return seq.astype(alphabet.array_type)
 
 
@@ -72,7 +73,7 @@ class SeqDataView(SeqView):
         return raw if self.step == 1 else raw[:: self.step]
 
     @property
-    def array_value(self) -> np.ndarray:
+    def array_value(self) -> numpy.ndarray:
         raw = self.seq.get_seq_array(
             seqid=self.seqid, start=self.parent_start, stop=self.parent_stop
         )
@@ -96,7 +97,7 @@ class SeqDataView(SeqView):
 class SeqData:
     # Separate AlignedSeqData for alignments (need to store gaps somehow)
     # ABC and interface
-    _data: dict[str, np.ndarray] = field(init=False)
+    _data: dict[str, numpy.ndarray] = field(init=False)
     _moltype: MolType = field(init=False)
     _name_order: tuple[str] = field(init=False)
     _alpha: CharAlphabet = field(init=False)
@@ -126,7 +127,7 @@ class SeqData:
 
     def get_seq_array(
         self, *, seqid: str, start: int = None, stop: int = None
-    ) -> np.ndarray:
+    ) -> numpy.ndarray:
         return self._data[seqid][start:stop]
 
     def get_seq_str(self, *, seqid: str, start: int = None, stop: int = None) -> str:

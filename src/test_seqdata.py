@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from cogent3 import get_moltype
 
-from seqdata import SeqData, SeqDataView, process_name_order, seq_index
+from seqdata import SeqData, SeqDataView, AlignedData, process_name_order, seq_index
 
 
 @pytest.fixture
