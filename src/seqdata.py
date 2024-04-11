@@ -152,3 +152,75 @@ class SeqData:
         seqids = process_name_order(self._name_order, name_order)
         for seqid in seqids:
             yield self.get_seq_view(seqid=seqid)
+
+
+def aligned_to_seq_gaps(seq: str, name: str, moltype: MolType, alphabet: CharAlphabet) -> tuple[numpy.ndarray]:
+    seq = moltype.make_seq(seq=seq, name=name)
+    m, s = seq.parse_out_gaps()
+    # Assuming the maximum integer is < 2^31
+    gaps = numpy.array(m.get_gap_coordinates(), dtype=numpy.int32), s
+    seq = seq_index(str(s), alphabet)
+    return seq, gaps
+
+
+@dataclass
+class AlignedData:
+    # Look out for any overlaps with SeqData
+    # Check: Made seqs and gaps optional for classmethod to work?
+    seqs: Optional[dict[str, numpy.ndarray]] = None 
+    gaps: Optional[dict[str, numpy.ndarray]] = None 
+    _moltype: MolType = field(init=False)
+    _name_order: tuple[str] = field(init=False)
+    _alpha: CharAlphabet = field(init=False)
+    moltype: InitVar[str | None] = "dna"
+    name_order: InitVar[tuple[str] | None] = None
+
+    def __post_init__(self, moltype, name_order):
+        self._moltype = get_moltype(moltype)
+        self._alpha = self._moltype.alphabets.degen_gapped
+        self._name_order = process_name_order(self.seqs, name_order)
+        # Check: it works, but I don't know why. 
+        
+    @classmethod
+    def from_strings(cls, data: dict[str, str], moltype: str="dna", name_order: Optional[tuple[str]] = None) -> Self:
+        """
+        Convert dict of [seq_names, seqs] to two dicts for seqs and gaps  
+        """
+        seq_lengths = {len(v) for v in data.values()}
+        if len(seq_lengths) != 1:
+            raise ValueError("All sequence lengths must be the same.")
+        
+        moltype = get_moltype(moltype)
+        alpha = moltype.alphabets.degen_gapped
+
+        seqs = {}
+        gaps = {}
+        for name, seq in data.items():
+            seqs[name], gaps[name] = aligned_to_seq_gaps(seq=seq, name=name, moltype=moltype, alphabet=alpha)
+        
+        name_order = process_name_order(seqs, name_order)
+
+        return cls(seqs=seqs, gaps=gaps, moltype=moltype, name_order=name_order)
+    
+    # TODO: Write temp method get_raw_data(name) -> tuple[numpy.array, numpy.array]
+    # Support str/array/bytes as well
+    # get_seq_gaps
+    # get_seq_str
+
+class AlignedDataView(SeqDataView):
+    # methods for outputting different data types will need to be overridden
+    pass
+
+    # TODO: 2.
+    # def value() 
+    # if not sliced return original string
+    # _convert.gap_coords_to_seq and vice versa
+    # raw_seq and raw_gaps from AlignedSeqData
+    # pass seqid only, for now 
+
+    # TODO: 3. def array_value() -> index and gaps
+    # TODO: 4. def bytes_value() -> index and gaps
+
+
+# TODO: Look at GapPosition tests
+# TODO: 1. Write test to create aligneddataset instance using from_strings

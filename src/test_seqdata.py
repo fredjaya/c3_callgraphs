@@ -279,3 +279,15 @@ def test_bytes(sdv_s2: SeqDataView):
     expect = sdv_s2.bytes_value
     got = bytes(sdv_s2)
     assert expect == got
+
+# AlignedSeqData tests
+def test_from_string_unequal_seqlens():
+    data = dict(seq1="A-A", seq2="AAAAAAA--")
+    with pytest.raises(ValueError):
+        AlignedData.from_strings(data=data)
+
+def test_create_from_string():
+    data = dict(seq1="ACG--T", seq2="-CGAAT")
+    got = AlignedData.from_strings(data=data)
+    assert isinstance(got, AlignedData)
+    # assert gap lengths
