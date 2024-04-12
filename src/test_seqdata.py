@@ -1,9 +1,9 @@
-import numpy as np
+import numpy as numpy
 import pytest
-from cogent3 import get_moltype
+from cogent3 import get_moltype, make_seq
 
-from seqdata import SeqData, SeqDataView, AlignedData, process_name_order, seq_index
-
+from seqdata import SeqData, SeqDataView, AlignedData, process_name_order, seq_index, aligned_to_seq_gaps, aligned_to_seq_gaps_fj
+from _convert import seq_to_gap_coords, gap_coords_to_seq
 
 @pytest.fixture
 def seq1():
@@ -17,7 +17,7 @@ def simple_dict():
 
 @pytest.fixture
 def simple_dict_arr():
-    return dict(seq1=np.array([2, 1, 3, 0]), seq2=np.array([3, 0, 0, 0, 3, 1, 2]))
+    return dict(seq1=numpy.array([2, 1, 3, 0]), seq2=numpy.array([3, 0, 0, 0, 3, 1, 2]))
 
 
 @pytest.fixture
@@ -27,7 +27,7 @@ def sd_demo(simple_dict: dict[str, str]):
 
 @pytest.fixture
 def int_arr():
-    return np.arange(17, dtype=np.uint8)
+    return numpy.arange(17, dtype=numpy.uint8)
 
 
 @pytest.fixture
@@ -39,6 +39,10 @@ def sdv_s2(sd_demo: SeqData) -> SeqDataView:
 def aligned_dict():
     return dict(seq1="ACG--T", seq2="-CGAAT")
 
+
+@pytest.fixture
+def ad_demo(aligned_dict: dict[str, str]):
+    return AlignedData.from_strings(aligned_dict)
 
 def test_seqdata_default_attributes(sd_demo: SeqData):
     assert sd_demo._name_order == ("seq1", "seq2")
@@ -151,7 +155,7 @@ def test_iter_seq_view(sd_demo: SeqData, idx, seq):
 def test_seq_index_str(seq, moltype_name, int_arr):
     alpha = get_moltype(moltype_name).alphabets.degen_gapped
     got = seq_index(seq, alpha)
-    assert np.array_equal(got, int_arr)
+    assert numpy.array_equal(got, int_arr)
 
 
 @pytest.mark.parametrize(
@@ -161,30 +165,30 @@ def test_seq_index_str(seq, moltype_name, int_arr):
 def test_seq_index_bytes(seq, moltype_name, int_arr):
     alpha = get_moltype(moltype_name).alphabets.degen_gapped
     got = seq_index(seq, alpha)
-    assert np.array_equal(got, int_arr)
+    assert numpy.array_equal(got, int_arr)
 
 
 @pytest.mark.parametrize("moltype_name", ("dna", "rna"))
 def test_seq_index_arr(moltype_name, int_arr):
     alpha = get_moltype(moltype_name).alphabets.degen_gapped
     got = seq_index(int_arr, alpha)
-    assert np.array_equal(got, int_arr)
+    assert numpy.array_equal(got, int_arr)
     assert got.dtype == int_arr.dtype
 
 
 def test_get_seq_array(simple_dict):
     # TODO: slicing should be tested here, not get_seq_str
     # seq1
-    expect = np.array([2, 1, 3, 0], dtype="uint8")
+    expect = numpy.array([2, 1, 3, 0], dtype="uint8")
     sd = SeqData(data=simple_dict)
     got = sd.get_seq_array(seqid="seq1")
-    assert np.array_equal(got, expect)
+    assert numpy.array_equal(got, expect)
 
     # seq2
-    expect = np.array([3, 0, 0, 0, 3, 1, 2], dtype="uint8")
+    expect = numpy.array([3, 0, 0, 0, 3, 1, 2], dtype="uint8")
     sd = SeqData(data=simple_dict)
     got = sd.get_seq_array(seqid="seq2")
-    assert np.array_equal(got, expect)
+    assert numpy.array_equal(got, expect)
 
 
 def test_get_seq_bytes(sd_demo: SeqData):
@@ -256,7 +260,7 @@ def test_array_value(simple_dict_arr: dict, start, stop, step):
     # Get SeqDataView on seq
     sdv = sd.get_seq_view(seqid=seq)
     got = sdv.array_value[start:stop:step]
-    assert np.array_equal(got, expect)
+    assert numpy.array_equal(got, expect)
 
 
 @pytest.mark.parametrize("start", (None, 0, 1, 4, -1, -4))
@@ -276,8 +280,8 @@ def test_bytes_value(simple_dict: dict, start, stop, step):
 # SeqDataView tests for special methods that access "value" properties
 def test_array(sdv_s2: SeqDataView):
     expect = sdv_s2.array_value
-    got = np.array(sdv_s2)
-    assert np.array_equal(expect, got)
+    got = numpy.array(sdv_s2)
+    assert numpy.array_equal(expect, got)
 
 
 def test_bytes(sdv_s2: SeqDataView):
@@ -301,10 +305,10 @@ def test_aligned_from_string_returns_self(aligned_dict):
 
 # AlignedData get_seq_* tests
 def test_aligned_get_seq_array(aligned_dict):
-    expect = np.array([2, 1, 3, 0], dtype="uint8")
+    expect = numpy.array([2, 1, 3, 0], dtype="uint8")
     ad = AlignedData.from_strings(data=aligned_dict)
     got = ad.get_seq_array(seqid="seq1")
-    assert np.array_equal(got, expect)
+    assert numpy.array_equal(got, expect)
 
 @pytest.mark.parametrize("seq", ("seq1", "seq2"))
 @pytest.mark.parametrize("start", (None, -1, 0, 1, 4))
@@ -321,3 +325,78 @@ def test_aligned_get_seq_bytes(aligned_dict):
     ad = AlignedData.from_strings(aligned_dict)
     got = ad.get_seq_bytes(seqid="seq1")
     assert isinstance(got, bytes)
+
+
+@pytest.mark.parametrize("seqid", ("seq1", "seq2"))
+def test_get_gaps(aligned_dict, seqid):
+    # A lot of this is from from_strings
+    data = aligned_dict[seqid]
+    moltype = get_moltype("dna")
+    alpha = moltype.alphabets.degen_gapped
+    _, expect = aligned_to_seq_gaps(data, seqid, moltype, alpha)
+
+    ad = AlignedData.from_strings(aligned_dict)
+    got = ad.get_gaps(seqid)
+    # x[1] is DNASequence()
+    assert numpy.array_equal(got[0], expect[0])
+
+
+def test_get_aligned_view(ad_demo: AlignedData):
+    got = ad_demo.get_aligned_view("seq1")
+    expect = f"AlignedDataView(seq={ad_demo}, start=0, stop=4, step=1, offset=0, seqid='seq1', seq_len=4)"
+    assert repr(got) == expect
+
+@pytest.mark.parametrize("start", (None, 0, 1, 4, -1, -4))
+@pytest.mark.parametrize("stop", (None, 0, 1, 4, -1, -4))
+@pytest.mark.parametrize("step", (None, 1, 2, 3, -1, -2, -3))
+def test_aligneddataview_value(aligned_dict: dict, start, stop, step):
+    seq = "seq2"
+    expect = aligned_dict[seq][start:stop:step]
+    ad = AlignedData.from_strings(aligned_dict)
+    # Get AlignedDataView on seq
+    adv = ad.get_aligned_view(seqid=seq)
+    adv2 = adv[start:stop:step]
+    got = adv2.value
+    assert got == expect
+
+
+# ensemblLite convert tests
+@pytest.mark.parametrize(
+    "seq", ("----", "---AGC--TGC--", "AGC--TGC--", "---AGC--TGC", "AGCTGC")
+)
+def test_roundtrip_gapped_seqs(seq):
+    seq = make_seq(seq, moltype="dna")
+    c, ug = seq_to_gap_coords(seq)
+    aligned = gap_coords_to_seq(c, ug)
+    assert str(aligned) == str(seq)
+
+
+def test_roundtrip_sliced_gapped_seqs():
+    aligned = make_seq("---AGC--TGC", moltype="dna")[1:8]
+    c, s = seq_to_gap_coords(aligned)
+    got = gap_coords_to_seq(c, s)
+    assert str(got) == str(aligned)
+
+# Tests for own implementation of seq/gap conversion  
+def test_aligned_to_seq_gaps_all_gaps():
+    parent_seq = "-----"
+    got = aligned_to_seq_gaps_fj(parent_seq)
+    expect = None, numpy.array([0, 5])
+    assert got[0] == expect[0]
+    assert numpy.array_equal(got[1], expect[1])
+
+def test_aligned_to_seq_gaps_no_gaps():
+    parent_seq = "ACTGC"
+    got = aligned_to_seq_gaps_fj(parent_seq)
+    expect = parent_seq, None
+    assert got[0] == expect[0]
+    assert numpy.array_equal(got[1], expect[1])
+
+@pytest.mark.parametrize("parent_seq, expect", [
+    ("A---CTG-C", ("ACTGC", numpy.array([[1,3],[7,1]]))),
+    ("-GTAC--", ("GTAC", numpy.array([[0,1], [5, 2]])))
+])
+def test_aligned_to_seq_gaps(parent_seq, expect):
+    got = aligned_to_seq_gaps_fj(parent_seq)
+    assert got[0] == expect[0]
+    assert numpy.array_equal(got[1], expect[1])
