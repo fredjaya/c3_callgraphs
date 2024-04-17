@@ -2,8 +2,10 @@ import numpy as numpy
 import pytest
 from cogent3 import get_moltype, make_seq
 
-from seqdata import SeqData, SeqDataView, AlignedData, process_name_order, seq_index, aligned_to_seq_gaps, aligned_to_seq_gaps_fj
-from _convert import seq_to_gap_coords, gap_coords_to_seq
+from _convert import gap_coords_to_seq, seq_to_gap_coords
+from seqdata import (AlignedData, SeqData, SeqDataView, aligned_to_seq_gaps,
+                     aligned_to_seq_gaps_fj, process_name_order, seq_index)
+
 
 @pytest.fixture
 def seq1():
@@ -43,6 +45,7 @@ def aligned_dict():
 @pytest.fixture
 def ad_demo(aligned_dict: dict[str, str]):
     return AlignedData.from_strings(aligned_dict)
+
 
 def test_seqdata_default_attributes(sd_demo: SeqData):
     assert sd_demo._name_order == ("seq1", "seq2")
@@ -289,13 +292,16 @@ def test_bytes(sdv_s2: SeqDataView):
     got = bytes(sdv_s2)
     assert expect == got
 
+
 # AlignedSeqData tests
 # TODO: How to test AlignedData.from_strings correctly?
+
 
 def test_from_string_unequal_seqlens():
     data = dict(seq1="A-A", seq2="AAAAAAA--")
     with pytest.raises(ValueError):
         AlignedData.from_strings(data=data)
+
 
 def test_aligned_from_string_returns_self(aligned_dict):
     got = AlignedData.from_strings(data=aligned_dict)
@@ -309,6 +315,7 @@ def test_aligned_get_seq_array(aligned_dict):
     ad = AlignedData.from_strings(data=aligned_dict)
     got = ad.get_seq_array(seqid="seq1")
     assert numpy.array_equal(got, expect)
+
 
 @pytest.mark.parametrize("seq", ("seq1", "seq2"))
 @pytest.mark.parametrize("start", (None, -1, 0, 1, 4))
@@ -346,6 +353,7 @@ def test_get_aligned_view(ad_demo: AlignedData):
     expect = f"AlignedDataView(seq={ad_demo}, start=0, stop=4, step=1, offset=0, seqid='seq1', seq_len=4)"
     assert repr(got) == expect
 
+
 @pytest.mark.parametrize("start", (None, 0, 1, 4, -1, -4))
 @pytest.mark.parametrize("stop", (None, 0, 1, 4, -1, -4))
 @pytest.mark.parametrize("step", (None, 1, 2, 3, -1, -2, -3))
@@ -377,13 +385,15 @@ def test_roundtrip_sliced_gapped_seqs():
     got = gap_coords_to_seq(c, s)
     assert str(got) == str(aligned)
 
-# Tests for own implementation of seq/gap conversion  
+
+# Tests for own implementation of seq/gap conversion
 def test_aligned_to_seq_gaps_all_gaps():
     parent_seq = "-----"
     got = aligned_to_seq_gaps_fj(parent_seq)
     expect = None, numpy.array([0, 5])
     assert got[0] == expect[0]
     assert numpy.array_equal(got[1], expect[1])
+
 
 def test_aligned_to_seq_gaps_no_gaps():
     parent_seq = "ACTGC"
@@ -392,10 +402,15 @@ def test_aligned_to_seq_gaps_no_gaps():
     assert got[0] == expect[0]
     assert numpy.array_equal(got[1], expect[1])
 
-@pytest.mark.parametrize("parent_seq, expect", [
-    ("A---CTG-C", ("ACTGC", numpy.array([[1,3],[7,1]]))),
-    ("-GTAC--", ("GTAC", numpy.array([[0,1], [5, 2]])))
-])
+
+@pytest.mark.parametrize(
+    "parent_seq, expect",
+    [
+        ("A---CTG-C", ("ACTGC", numpy.array([[1, 3], [7, 1]]))),
+        ("-GTAC--", ("GTAC", numpy.array([[0, 1], [5, 2]]))),
+        ("---AGC--TGC--", ("AGCTGC", numpy.array([[0, 3], [6, 2], [11, 2]]))),
+    ],
+)
 def test_aligned_to_seq_gaps(parent_seq, expect):
     got = aligned_to_seq_gaps_fj(parent_seq)
     assert got[0] == expect[0]

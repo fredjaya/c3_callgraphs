@@ -195,36 +195,37 @@ def aligned_to_seq_gaps_fj(parent_seq: str) -> tuple[str, numpy.ndarray]:
     """
     parent_len = len(parent_seq)
     # seq with only gaps
-    if parent_seq == "-"*parent_len:
+    if parent_seq == "-" * parent_len:
         return None, numpy.array([0, len(parent_seq)])
 
-    # Remove gaps from seq 
+    # Remove gaps from seq
     ungapped = parent_seq.replace("-", "")
 
     # seq with no gaps
     if len(ungapped) == parent_len:
         return parent_seq, None
-    
+
     # iterate over positions
     gap_start = False
     coords = []
     for pos, i in enumerate(parent_seq):
-        if i != "-" and gap_start:
+        if i == "-":
+            if gap_start is False:
+                # record start pos of gap
+                gap_start = pos
+            if pos == parent_len - 1:
+                # seq ends with a gap
+                gap_len = pos - gap_start + 1
+                coords.append([gap_start, gap_len])
+        elif gap_start is not False:
             # End gap segment
             gap_len = pos - gap_start
             coords.append([gap_start, gap_len])
-            gap_start = False #reset
-        if i == "-" and not gap_start:
-            # record start pos of gap
-            gap_start = pos
-            if pos == parent_len - 1:
-                # seq ends with a gap
-                gap_len = pos - gap_start
-                coords.append([gap_start, gap_len])
+            gap_start = False  # reset
 
     return ungapped, numpy.array(coords)
 
-    
+
 class AlignedDataView(SeqDataView):
     """
     Example
