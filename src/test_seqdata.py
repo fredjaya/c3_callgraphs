@@ -1,10 +1,10 @@
 import numpy as numpy
 import pytest
 from cogent3 import get_moltype, make_seq
+from ensembl_lite._aligndb import GapPositions
 
-from _convert import gap_coords_to_seq, seq_to_gap_coords
-from seqdata import (AlignedData, SeqData, SeqDataView, aligned_to_seq_gaps,
-                     aligned_to_seq_gaps_fj, process_name_order, seq_index)
+from seqdata import (AlignedData, SeqData, SeqDataView, process_name_order,
+                     seq_index, seq_to_gap_coords)
 
 
 @pytest.fixture
@@ -340,7 +340,7 @@ def test_get_gaps(aligned_dict, seqid):
     data = aligned_dict[seqid]
     moltype = get_moltype("dna")
     alpha = moltype.alphabets.degen_gapped
-    _, expect = aligned_to_seq_gaps(data, seqid, moltype, alpha)
+    _, expect = seq_to_gap_coords(data, seqid, moltype, alpha)
 
     ad = AlignedData.from_strings(aligned_dict)
     got = ad.get_gaps(seqid)
@@ -387,17 +387,17 @@ def test_roundtrip_sliced_gapped_seqs():
 
 
 # Tests for own implementation of seq/gap conversion
-def test_aligned_to_seq_gaps_all_gaps():
+def test_seq_to_gap_coords_all_gaps():
     parent_seq = "-----"
-    got = aligned_to_seq_gaps_fj(parent_seq)
+    got = seq_to_gap_coords(parent_seq)
     expect = None, numpy.array([0, 5])
     assert got[0] == expect[0]
     assert numpy.array_equal(got[1], expect[1])
 
 
-def test_aligned_to_seq_gaps_no_gaps():
+def test_seq_to_gap_coords_no_gaps():
     parent_seq = "ACTGC"
-    got = aligned_to_seq_gaps_fj(parent_seq)
+    got = seq_to_gap_coords(parent_seq)
     expect = parent_seq, None
     assert got[0] == expect[0]
     assert numpy.array_equal(got[1], expect[1])
@@ -406,12 +406,15 @@ def test_aligned_to_seq_gaps_no_gaps():
 @pytest.mark.parametrize(
     "parent_seq, expect",
     [
-        ("A---CTG-C", ("ACTGC", numpy.array([[1, 3], [7, 1]]))),
-        ("-GTAC--", ("GTAC", numpy.array([[0, 1], [5, 2]]))),
-        ("---AGC--TGC--", ("AGCTGC", numpy.array([[0, 3], [6, 2], [11, 2]]))),
+        ("A---CTG-C", ("ACTGC", GapPositions(numpy.array([[1, 3], [7, 1]]), 5))),
+        ("-GTAC--", ("GTAC", GapPositions(numpy.array([[0, 1], [5, 2]]), 4))),
+        (
+            "---AGC--TGC--",
+            ("AGCTGC", GapPositions(numpy.array([[0, 3], [6, 2], [11, 2]]), 6)),
+        ),
     ],
 )
-def test_aligned_to_seq_gaps(parent_seq, expect):
-    got = aligned_to_seq_gaps_fj(parent_seq)
-    assert got[0] == expect[0]
-    assert numpy.array_equal(got[1], expect[1])
+def test_seq_to_gap_coords(parent_seq, expect):
+    got_ungapped, got_GP = seq_to_gap_coords(parent_seq)
+    assert got_ungapped == expect[0]
+    assert numpy.array_equal(got_GP.gaps, expect[1].gaps)

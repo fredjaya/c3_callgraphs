@@ -7,8 +7,7 @@ from cogent3 import get_moltype
 from cogent3.core.alphabet import CharAlphabet
 from cogent3.core.moltype import MolType
 from cogent3.core.sequence import SeqView
-from _convert import gap_coords_to_seq
-#from _aligndb import GapPositions
+from ensembl_lite._aligndb import GapPositions
 
 T = Union[str, bytes, numpy.ndarray]
 
@@ -62,7 +61,7 @@ def _(correct_names: tuple | list, name_order: tuple) -> tuple:
 class SeqDataView(SeqView):
     """
     A view class for SeqData, providing properties for different
-    representations. 
+    representations.
 
     self.seq is a SeqData() instance, but other properties are a reference to a single
     seqid only.
@@ -168,16 +167,7 @@ class SeqData:
             yield self.get_seq_view(seqid=seqid)
 
 
-def aligned_to_seq_gaps(seq: str, name: str, moltype: MolType, alphabet: CharAlphabet) -> tuple[numpy.ndarray]:
-    seq = moltype.make_seq(seq=seq, name=name)
-    m, s = seq.parse_out_gaps()
-    # Assuming the maximum integer is < 2^31
-    # TODO: import GapPos
-    #gaps = GapPositions(numpy.array(m.get_gap_coordinates(), dtype=numpy.int32), len(seq))
-    seq = seq_index(str(s), alphabet)
-    return seq, gaps
-
-def aligned_to_seq_gaps_fj(parent_seq: str) -> tuple[str, numpy.ndarray]:
+def seq_to_gap_coords(parent_seq: str) -> tuple[str, numpy.ndarray]:
     """
     Parameters
     ----------
@@ -187,11 +177,8 @@ def aligned_to_seq_gaps_fj(parent_seq: str) -> tuple[str, numpy.ndarray]:
     Returns
     -------
     ungapped : str
-        Sequence with no gaps
 
-    gap_coords : numpy.ndarray
-        Array of gap coordinates where a[0] = start gap position in parent seq
-        and a[1] is the length of the gap segment.
+    gap_coords : GapPositions
     """
     parent_len = len(parent_seq)
     # seq with only gaps
@@ -223,7 +210,7 @@ def aligned_to_seq_gaps_fj(parent_seq: str) -> tuple[str, numpy.ndarray]:
             coords.append([gap_start, gap_len])
             gap_start = False  # reset
 
-    return ungapped, numpy.array(coords)
+    return ungapped, GapPositions(numpy.array(coords), parent_len)
 
 
 class AlignedDataView(SeqDataView):
@@ -234,35 +221,37 @@ class AlignedDataView(SeqDataView):
     ad = AlignedData.from_strings(data)
     adv = sd.get_aligned_view(seqid="seq1")
     """
+
     # methods for outputting different data types will need to be overridden
     @property
     def value(self) -> str:
         coords, ungapped = self.seq.get_gaps(seqid=self.seqid)
         aligned = gap_coords_to_seq(coords, ungapped)
         str_aligned = str(aligned)
-        raw_seq = str_aligned[self.parent_start:self.parent_stop]
-        #raw_seq = self.seq.get_seq_str(
+        raw_seq = str_aligned[self.parent_start : self.parent_stop]
+        # raw_seq = self.seq.get_seq_str(
         #    seqid=self.seqid, start=self.parent_start, stop=self.parent_stop
-        #)
+        # )
 
         return raw_seq if self.step == 1 else raw_seq[:: self.step]
 
-    # def value() 
-        # if not sliced return original string
-        # _convert.gap_coords_to_seq and vice versa
+    # def value()
+    # if not sliced return original string
+    # _convert.gap_coords_to_seq and vice versa
     # raw_seqs and raw_gaps from AlignedData
     # Method on AlignedData - get seq and get gaps
-    # pass seqid only, for now 
+    # pass seqid only, for now
 
     # TODO: 3. def array_value() -> index and gaps
     # TODO: 4. def bytes_value() -> index and gaps
+
 
 @dataclass
 class AlignedData:
     # Look out for any overlaps with SeqData
     # Check: Made seqs and gaps optional for classmethod to work?
-    seqs: Optional[dict[str, numpy.ndarray]] = None 
-    gaps: Optional[dict[str, numpy.ndarray]] = None 
+    seqs: Optional[dict[str, numpy.ndarray]] = None
+    gaps: Optional[dict[str, numpy.ndarray]] = None
     _moltype: MolType = field(init=False)
     _name_order: tuple[str] = field(init=False)
     _alpha: CharAlphabet = field(init=False)
@@ -274,17 +263,22 @@ class AlignedData:
         self._moltype = get_moltype(moltype)
         self._alpha = self._moltype.alphabets.degen_gapped
         self._name_order = process_name_order(self.seqs, name_order)
-        # Check: it works, but I don't know why. 
+        # Check: it works, but I don't know why.
 
     @classmethod
-    def from_strings(cls, data: dict[str, str], moltype: str="dna", name_order: Optional[tuple[str]] = None) -> Self:
+    def from_strings(
+        cls,
+        data: dict[str, str],
+        moltype: str = "dna",
+        name_order: Optional[tuple[str]] = None,
+    ) -> Self:
         """
-        Convert dict of {seq_name: seq, ...} to two dicts for seqs and gaps  
+        Convert dict of {seq_name: seq, ...} to two dicts for seqs and gaps
         """
         seq_lengths = {len(v) for v in data.values()}
         if len(seq_lengths) != 1:
             raise ValueError("All sequence lengths must be the same.")
-        
+
         align_len = seq_lengths.pop()
         moltype = get_moltype(moltype)
         alpha = moltype.alphabets.degen_gapped
@@ -292,12 +286,18 @@ class AlignedData:
         seqs = {}
         gaps = {}
         for name, seq in data.items():
-            seqs[name], gaps[name] = aligned_to_seq_gaps(seq=seq, name=name, moltype=moltype, alphabet=alpha)
-        
+            seqs[name], gaps[name] = aligned_to_seq_gaps(seq)
+
         name_order = process_name_order(seqs, name_order)
 
-        return cls(seqs=seqs, gaps=gaps, moltype=moltype, name_order=name_order, align_len=align_len)
-    
+        return cls(
+            seqs=seqs,
+            gaps=gaps,
+            moltype=moltype,
+            name_order=name_order,
+            align_len=align_len,
+        )
+
     def get_aligned_view(self, seqid: str) -> AlignedDataView:
         # Need to revisit what the variable is called i.e. parent_length
         return AlignedDataView(self, seqid=seqid, seq_len=self.align_len)
@@ -313,16 +313,16 @@ class AlignedData:
         ungapped = self.seqs[seqid]
         gap_pos = self.gaps[seqid]
         return self.seqs[seqid][start:stop]
-        
+
     def get_seq_str(self, *, seqid: str, start: int = None, stop: int = None) -> str:
         return self._alpha.from_indices(
             self.get_seq_array(seqid=seqid, start=start, stop=stop)
         )
-    
+
     def get_seq_bytes(
         self, *, seqid: str, start: int = None, stop: int = None
     ) -> bytes:
         return self.get_seq_str(seqid=seqid, start=start, stop=stop).encode("utf8")
-    
+
     def get_gaps(self, seqid: str) -> numpy.ndarray:
         return self.gaps[seqid]
