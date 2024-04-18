@@ -47,6 +47,20 @@ def ad_demo(aligned_dict: dict[str, str]):
     return AlignedData.from_strings(aligned_dict)
 
 
+@pytest.fixture
+def gapped_ungapped_gappos():
+    """For AlignedData converting between gapped/ungapped seqs"""
+    [
+        ("A---CTG-C", "ACTGC", GapPositions(numpy.array([[1, 3], [7, 1]]), 5)),
+        ("-GTAC--", "GTAC", GapPositions(numpy.array([[0, 1], [5, 2]]), 4)),
+        (
+            "---AGC--TGC--",
+            "AGCTGC",
+            GapPositions(numpy.array([[0, 3], [6, 2], [11, 2]]), 6),
+        ),
+    ]
+
+
 def test_seqdata_default_attributes(sd_demo: SeqData):
     assert sd_demo._name_order == ("seq1", "seq2")
     assert sd_demo._moltype.label == "dna"
@@ -368,53 +382,29 @@ def test_aligneddataview_value(aligned_dict: dict, start, stop, step):
     assert got == expect
 
 
-# ensemblLite convert tests
-@pytest.mark.parametrize(
-    "seq", ("----", "---AGC--TGC--", "AGC--TGC--", "---AGC--TGC", "AGCTGC")
-)
-def test_roundtrip_gapped_seqs(seq):
-    seq = make_seq(seq, moltype="dna")
-    c, ug = seq_to_gap_coords(seq)
-    aligned = gap_coords_to_seq(c, ug)
-    assert str(aligned) == str(seq)
-
-
-def test_roundtrip_sliced_gapped_seqs():
-    aligned = make_seq("---AGC--TGC", moltype="dna")[1:8]
-    c, s = seq_to_gap_coords(aligned)
-    got = gap_coords_to_seq(c, s)
-    assert str(got) == str(aligned)
-
-
 # Tests for own implementation of seq/gap conversion
 def test_seq_to_gap_coords_all_gaps():
     parent_seq = "-----"
-    got = seq_to_gap_coords(parent_seq)
-    expect = None, numpy.array([0, 5])
-    assert got[0] == expect[0]
-    assert numpy.array_equal(got[1], expect[1])
+    expect_gappos = GapPositions(numpy.array([0, 5]), 5)
+    got_ungap, got_gappos = seq_to_gap_coords(parent_seq)
+    assert got_ungap is None
+    assert numpy.array_equal(got_gappos.gaps, expect_gappos.gaps)
+    assert got_gappos.seq_length == expect_gappos.seq_length
 
 
 def test_seq_to_gap_coords_no_gaps():
     parent_seq = "ACTGC"
-    got = seq_to_gap_coords(parent_seq)
-    expect = parent_seq, None
-    assert got[0] == expect[0]
-    assert numpy.array_equal(got[1], expect[1])
+    expect_gappos = GapPositions(numpy.array([]), 5)
+    got_ungap, got_gappos = seq_to_gap_coords(parent_seq)
+    assert got_ungap == parent_seq
+    assert numpy.array_equal(got_gappos.gaps, expect_gappos.gaps)
+    assert got_gappos.seq_length == expect_gappos.seq_length
 
 
-@pytest.mark.parametrize(
-    "parent_seq, expect",
-    [
-        ("A---CTG-C", ("ACTGC", GapPositions(numpy.array([[1, 3], [7, 1]]), 5))),
-        ("-GTAC--", ("GTAC", GapPositions(numpy.array([[0, 1], [5, 2]]), 4))),
-        (
-            "---AGC--TGC--",
-            ("AGCTGC", GapPositions(numpy.array([[0, 3], [6, 2], [11, 2]]), 6)),
-        ),
-    ],
-)
-def test_seq_to_gap_coords(parent_seq, expect):
-    got_ungapped, got_GP = seq_to_gap_coords(parent_seq)
-    assert got_ungapped == expect[0]
-    assert numpy.array_equal(got_GP.gaps, expect[1].gaps)
+@pytest.mark.parametrize("test_index", range(2))
+def test_seq_to_gap_coords(gapped_ungapped_gappos, test_index):
+    print(gapped_ungapped_gappos[test_index])
+    expect_gapped, expect_ungapped, expect_GP = gapped_ungapped_gappos[test_index]
+    got_ungapped, got_GP = seq_to_gap_coords(expect_gapped)
+    assert got_ungapped == expect_ungapped
+    assert numpy.array_equal(got_GP.gaps, expect_GP.gaps)

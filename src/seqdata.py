@@ -183,14 +183,14 @@ def seq_to_gap_coords(parent_seq: str) -> tuple[str, numpy.ndarray]:
     parent_len = len(parent_seq)
     # seq with only gaps
     if parent_seq == "-" * parent_len:
-        return None, numpy.array([0, len(parent_seq)])
+        return None, GapPositions(numpy.array([0, len(parent_seq)]), len(parent_seq))
 
     # Remove gaps from seq
     ungapped = parent_seq.replace("-", "")
 
     # seq with no gaps
     if len(ungapped) == parent_len:
-        return parent_seq, None
+        return parent_seq, GapPositions(numpy.array([]), parent_len)
 
     # iterate over positions
     gap_start = False
