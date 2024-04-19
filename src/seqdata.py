@@ -234,6 +234,14 @@ def gap_coords_to_seq(ungapped_seq: str, gap_positions: GapPositions) -> str:
     gapped
         Sequence with gaps inserted.
     """
+    if ungapped_seq is None:
+        # All gaps
+        return "-" * gap_positions.seq_length
+
+    if gap_positions.gaps.size == 0:
+        # No gaps
+        return ungapped_seq
+
     gapped = ""
     offset = 0
     frag_start = 0

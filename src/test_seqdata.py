@@ -414,3 +414,17 @@ def test_gap_coords_to_seq(gapped_ungapped_gappos, test_index):
     expect_gapped, expect_ungapped, expect_GP = gapped_ungapped_gappos[test_index]
     got_gapped = gap_coords_to_seq(expect_ungapped, expect_GP)
     assert got_gapped == expect_gapped
+
+
+def test_gap_coords_to_seq_allgaps():
+    seq = "----"
+    ug, gp = seq_to_gap_coords(seq)
+    got = gap_coords_to_seq(ug, gp)
+    assert got == seq
+
+
+def test_gap_coords_to_seq_nogaps():
+    seq = "ACTG"
+    ug, gp = seq_to_gap_coords(seq)
+    got = gap_coords_to_seq(ug, gp)
+    assert got == seq
