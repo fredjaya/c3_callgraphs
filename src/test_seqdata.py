@@ -3,8 +3,9 @@ import pytest
 from cogent3 import get_moltype, make_seq
 from ensembl_lite._aligndb import GapPositions
 
-from seqdata import (AlignedData, SeqData, SeqDataView, gap_coords_to_seq,
-                     process_name_order, seq_index, seq_to_gap_coords)
+from seqdata import (AlignedData, AlignedDataView, SeqData, SeqDataView,
+                     gap_coords_to_seq, process_name_order, seq_index,
+                     seq_to_gap_coords)
 
 
 @pytest.fixture
@@ -355,10 +356,14 @@ def test_get_gaps(aligned_dict, seqid, expect):
     assert numpy.array_equal(got, expect)
 
 
-def test_get_aligned_view(ad_demo: AlignedData):
-    got = ad_demo.get_aligned_view("seq1")
-    expect = f"AlignedDataView(seq={ad_demo}, start=0, stop=4, step=1, offset=0, seqid='seq1', seq_len=4)"
-    assert repr(got) == expect
+@pytest.mark.parametrize("seqid", ("seq1", "seq2"))
+def test_get_aligned_view(aligned_dict, seqid):
+    ad = AlignedData.from_strings(aligned_dict)
+    got = ad.get_aligned_view(seqid)
+    assert isinstance(got, AlignedDataView)
+    assert got.seq == ad
+    assert got.stop == ad.align_len
+    assert got.seq_len == ad.align_len
 
 
 @pytest.mark.parametrize("start", (None, 0, 1, 4, -1, -4))
