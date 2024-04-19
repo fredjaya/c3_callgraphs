@@ -3,8 +3,8 @@ import pytest
 from cogent3 import get_moltype, make_seq
 from ensembl_lite._aligndb import GapPositions
 
-from seqdata import (AlignedData, SeqData, SeqDataView, process_name_order,
-                     seq_index, seq_to_gap_coords)
+from seqdata import (AlignedData, SeqData, SeqDataView, gap_coords_to_seq,
+                     process_name_order, seq_index, seq_to_gap_coords)
 
 
 @pytest.fixture
@@ -50,7 +50,7 @@ def ad_demo(aligned_dict: dict[str, str]):
 @pytest.fixture
 def gapped_ungapped_gappos():
     """For AlignedData converting between gapped/ungapped seqs"""
-    [
+    return [
         ("A---CTG-C", "ACTGC", GapPositions(numpy.array([[1, 3], [7, 1]]), 5)),
         ("-GTAC--", "GTAC", GapPositions(numpy.array([[0, 1], [5, 2]]), 4)),
         (
@@ -308,9 +308,6 @@ def test_bytes(sdv_s2: SeqDataView):
 
 
 # AlignedSeqData tests
-# TODO: How to test AlignedData.from_strings correctly?
-
-
 def test_from_string_unequal_seqlens():
     data = dict(seq1="A-A", seq2="AAAAAAA--")
     with pytest.raises(ValueError):
@@ -348,18 +345,14 @@ def test_aligned_get_seq_bytes(aligned_dict):
     assert isinstance(got, bytes)
 
 
-@pytest.mark.parametrize("seqid", ("seq1", "seq2"))
-def test_get_gaps(aligned_dict, seqid):
-    # A lot of this is from from_strings
-    data = aligned_dict[seqid]
-    moltype = get_moltype("dna")
-    alpha = moltype.alphabets.degen_gapped
-    _, expect = seq_to_gap_coords(data, seqid, moltype, alpha)
-
+@pytest.mark.parametrize(
+    "seqid, expect", [("seq1", numpy.array([[3, 2]])), ("seq2", numpy.array([[0, 1]]))]
+)
+def test_get_gaps(aligned_dict, seqid, expect):
     ad = AlignedData.from_strings(aligned_dict)
-    got = ad.get_gaps(seqid)
-    # x[1] is DNASequence()
-    assert numpy.array_equal(got[0], expect[0])
+    gap_pos = ad.get_gaps(seqid)
+    got = gap_pos.gaps
+    assert numpy.array_equal(got, expect)
 
 
 def test_get_aligned_view(ad_demo: AlignedData):
@@ -382,7 +375,8 @@ def test_aligneddataview_value(aligned_dict: dict, start, stop, step):
     assert got == expect
 
 
-# Tests for own implementation of seq/gap conversion
+## Tests for own implementation of seq/gap conversion
+# seq to gaps
 def test_seq_to_gap_coords_all_gaps():
     parent_seq = "-----"
     expect_gappos = GapPositions(numpy.array([0, 5]), 5)
@@ -401,10 +395,17 @@ def test_seq_to_gap_coords_no_gaps():
     assert got_gappos.seq_length == expect_gappos.seq_length
 
 
-@pytest.mark.parametrize("test_index", range(2))
+@pytest.mark.parametrize("test_index", range(3))
 def test_seq_to_gap_coords(gapped_ungapped_gappos, test_index):
-    print(gapped_ungapped_gappos[test_index])
     expect_gapped, expect_ungapped, expect_GP = gapped_ungapped_gappos[test_index]
     got_ungapped, got_GP = seq_to_gap_coords(expect_gapped)
     assert got_ungapped == expect_ungapped
     assert numpy.array_equal(got_GP.gaps, expect_GP.gaps)
+
+
+# Gaps to seq
+@pytest.mark.parametrize("test_index", range(3))
+def test_gap_coords_to_seq(gapped_ungapped_gappos, test_index):
+    expect_gapped, expect_ungapped, expect_GP = gapped_ungapped_gappos[test_index]
+    got_gapped = gap_coords_to_seq(expect_ungapped, expect_GP)
+    assert got_gapped == expect_gapped

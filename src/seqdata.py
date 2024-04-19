@@ -169,6 +169,9 @@ class SeqData:
 
 def seq_to_gap_coords(parent_seq: str) -> tuple[str, numpy.ndarray]:
     """
+    Takes a sequence with (or without) gaps and returns an ungapped sequence
+    and records the position and length of gaps in the original parent sequence
+
     Parameters
     ----------
     parent_seq : str
@@ -211,6 +214,43 @@ def seq_to_gap_coords(parent_seq: str) -> tuple[str, numpy.ndarray]:
             gap_start = False  # reset
 
     return ungapped, GapPositions(numpy.array(coords), parent_len)
+
+
+def gap_coords_to_seq(ungapped_seq: str, gap_positions: GapPositions) -> str:
+    """
+    Takes the outputs from seq_to_gap_coords() to reconstruct the original
+    sequence with gaps interleaved.
+
+    Parameters
+    ----------
+    ungapped_seq
+        Sequence with gaps parsed out from seq_to_gap_coords()
+
+    gap_positions
+        GapPositions() class from seq_to_gap_coords()
+
+    Returns
+    -------
+    gapped
+        Sequence with gaps inserted.
+    """
+    gapped = ""
+    offset = 0
+    frag_start = 0
+    for gap_start, gap_length in gap_positions.gaps:
+        # Adjust from aligned indicies to ungapped
+        # i.e. offsets by the total gaps added
+        frag_start -= offset
+        frag_end = gap_start - offset
+        # Slice ungapped
+        gapped += ungapped_seq[frag_start:frag_end]
+        gapped += "-" * gap_length
+        # Update counters for next iteration
+        offset += gap_length
+        frag_start = len(gapped)
+    # If ends with frag
+    gapped += ungapped_seq[frag_end:]
+    return gapped
 
 
 class AlignedDataView(SeqDataView):
@@ -273,7 +313,7 @@ class AlignedData:
         name_order: Optional[tuple[str]] = None,
     ) -> Self:
         """
-        Convert dict of {seq_name: seq, ...} to two dicts for seqs and gaps
+        Convert dict of {"seq_name": "seq"} to two dicts for seqs and gaps
         """
         seq_lengths = {len(v) for v in data.values()}
         if len(seq_lengths) != 1:
@@ -281,12 +321,11 @@ class AlignedData:
 
         align_len = seq_lengths.pop()
         moltype = get_moltype(moltype)
-        alpha = moltype.alphabets.degen_gapped
 
         seqs = {}
         gaps = {}
         for name, seq in data.items():
-            seqs[name], gaps[name] = aligned_to_seq_gaps(seq)
+            seqs[name], gaps[name] = seq_to_gap_coords(seq)
 
         name_order = process_name_order(seqs, name_order)
 
