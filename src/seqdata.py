@@ -8,6 +8,7 @@ from cogent3.core.alphabet import CharAlphabet
 from cogent3.core.moltype import MolType
 from cogent3.core.sequence import SeqView
 from ensembl_lite._aligndb import GapPositions
+from cogent3.core.location import IndelMap
 
 T = Union[str, bytes, numpy.ndarray]
 
@@ -166,8 +167,8 @@ class SeqData:
         for seqid in seqids:
             yield self.get_seq_view(seqid=seqid)
 
-
-def seq_to_gap_coords(parent_seq: str) -> tuple[str, numpy.ndarray]:
+# TODO: single dispatch for arrays too
+def seq_to_gap_coords(seq: str, moltype: MolType) -> tuple[str, IndelMap]:
     """
     Takes a sequence with (or without) gaps and returns an ungapped sequence
     and records the position and length of gaps in the original parent sequence
@@ -183,23 +184,46 @@ def seq_to_gap_coords(parent_seq: str) -> tuple[str, numpy.ndarray]:
 
     gap_coords : GapPositions
     """
+    seq = moltype.make_seq(seq)
+    indel_map, ungapped_seq = seq.parse_out_gaps()
+
+    if indel_map.num_gaps == 0:
+        return str(ungapped_seq), numpy.array([], dtype=int)
+
+    # for array dispatch, return IndelMap(gap_pos, cum_gap_lengths, parent_length=len(s))
+    return str(ungapped_seq), indel_map
+
+    # Select gap character based on input seq type
+    # TODO: gap_char as optional arg
+    # TODO: should work with strings only, for now
+    # e.g. gap_char to be dealt by cogent3.Sequence()
+    if isinstance(parent_seq, str):
+        gap_char = moltype.gap
+    # dna.alphabets.degen_gapped.index(dna.gap)
+    # elif isinstance(parent_seq, numpy.ndarray):
+    #     gap_char = 
+    else:
+        raise ValueError
+
     parent_len = len(parent_seq)
     # seq with only gaps
-    if parent_seq == "-" * parent_len:
-        return None, GapPositions(numpy.array([0, len(parent_seq)]), len(parent_seq))
+    if parent_seq == gap_char * parent_len:
+        return "", GapPositions(numpy.array([0, len(parent_seq)]), len(parent_seq))
 
     # Remove gaps from seq
-    ungapped = parent_seq.replace("-", "")
+    ungapped = parent_seq.replace(gap_char, "")
 
     # seq with no gaps
     if len(ungapped) == parent_len:
         return parent_seq, GapPositions(numpy.array([]), parent_len)
 
     # iterate over positions
+    # TODO: See parse_out_gaps() for regex approach to this, later
+    # Get from cogent3/refactor when ready
     gap_start = False
     coords = []
     for pos, i in enumerate(parent_seq):
-        if i == "-":
+        if i == gap_char:
             if gap_start is False:
                 # record start pos of gap
                 gap_start = pos
@@ -311,12 +335,13 @@ class AlignedData:
         self._moltype = get_moltype(moltype)
         self._alpha = self._moltype.alphabets.degen_gapped
         self._name_order = process_name_order(self.seqs, name_order)
-        # Check: it works, but I don't know why.
+        self.seqs = {k: seq_index(v, self._alpha) for k, v in self.seqs.items()}
 
     @classmethod
+    # def from_gapped_seqs
     def from_strings(
         cls,
-        data: dict[str, str],
+        data: dict[str, str], # dict[str, str | numpy.ndarray]
         moltype: str = "dna",
         name_order: Optional[tuple[str]] = None,
     ) -> Self:
@@ -334,6 +359,7 @@ class AlignedData:
         gaps = {}
         for name, seq in data.items():
             seqs[name], gaps[name] = seq_to_gap_coords(seq)
+        # 
 
         name_order = process_name_order(seqs, name_order)
 
@@ -352,14 +378,26 @@ class AlignedData:
     def get_seq_array(
         self, *, seqid: str, start: int = None, stop: int = None
     ) -> numpy.ndarray:
-        # TODO: Should return seq interleaved with gaps
-        # return: [2, 1, 3, 0,  -, -]
-        # same for bytes and str
-        # TODO: GapPosition() should have a method that
-        # Must convert seq to alignment coordinates
-        ungapped = self.seqs[seqid]
-        gap_pos = self.gaps[seqid]
-        return self.seqs[seqid][start:stop]
+        # TODO: Figure out how to slice by converting seq_coords to 
+        # align_coords. GapPositions() has a method that does this
+        seq = self.seqs[seqid]
+        gap_coord = self.get_gaps(seqid)
+        # Length of result to return (align_len)
+        # Create empty array of align_len
+        # Place gaps correctly
+        # Place seqs correctly
+        # result[:] = gap_char
+        # write a function that takes the gappos,
+        # and returns the sequence coordinates for the ungapped segments
+        # and also returns the corresponding alignment coordinates too
+        #   01 234  seq coord
+        # --AG-GGT--
+        # 0123456789  al coord
+        # [(0, 2), (2, 1), (5, 2)] thats gap_pos.gaps 
+        # (0, 2) and (2, 5) are the ungapped segments
+        # their corresponding alignment coordinates
+        # (2, 4) and (5, 8)
+        return gap_coords_to_seq(self.seqs[seqid], self.gaps[seqid])[start:stop]
 
     def get_seq_str(self, *, seqid: str, start: int = None, stop: int = None) -> str:
         return self._alpha.from_indices(

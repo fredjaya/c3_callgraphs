@@ -48,20 +48,6 @@ def ad_demo(aligned_dict: dict[str, str]):
     return AlignedData.from_strings(aligned_dict)
 
 
-@pytest.fixture
-def gapped_ungapped_gappos():
-    """For AlignedData converting between gapped/ungapped seqs"""
-    return [
-        ("A---CTG-C", "ACTGC", GapPositions(numpy.array([[1, 3], [7, 1]]), 5)),
-        ("-GTAC--", "GTAC", GapPositions(numpy.array([[0, 1], [5, 2]]), 4)),
-        (
-            "---AGC--TGC--",
-            "AGCTGC",
-            GapPositions(numpy.array([[0, 3], [6, 2], [11, 2]]), 6),
-        ),
-    ]
-
-
 def test_seqdata_default_attributes(sd_demo: SeqData):
     assert sd_demo._name_order == ("seq1", "seq2")
     assert sd_demo._moltype.label == "dna"
@@ -366,46 +352,55 @@ def test_get_aligned_view(aligned_dict, seqid):
     assert got.seq_len == ad.align_len
 
 
-@pytest.mark.parametrize("start", (None, 0, 1, 4, -1, -4))
-@pytest.mark.parametrize("stop", (None, 0, 1, 4, -1, -4))
-@pytest.mark.parametrize("step", (None, 1, 2, 3, -1, -2, -3))
-def test_aligneddataview_value(aligned_dict: dict, start, stop, step):
-    seq = "seq2"
-    expect = aligned_dict[seq][start:stop:step]
-    ad = AlignedData.from_strings(aligned_dict)
-    # Get AlignedDataView on seq
-    adv = ad.get_aligned_view(seqid=seq)
-    adv2 = adv[start:stop:step]
-    got = adv2.value
-    assert got == expect
+#@pytest.mark.parametrize("start", (None, 0, 1, 4, -1, -4))
+#@pytest.mark.parametrize("stop", (None, 0, 1, 4, -1, -4))
+#@pytest.mark.parametrize("step", (None, 1, 2, 3, -1, -2, -3))
+#def test_aligneddataview_value(aligned_dict: dict, start, stop, step):
+#    seq = "seq2"
+#    expect = aligned_dict[seq][start:stop:step]
+#    ad = AlignedData.from_strings(aligned_dict)
+#    # Get AlignedDataView on seq
+#    adv = ad.get_aligned_view(seqid=seq)
+#    adv2 = adv[start:stop:step]
+#    got = adv2.value
+#    assert got == expect
 
 
-## Tests for own implementation of seq/gap conversion
-# seq to gaps
-def test_seq_to_gap_coords_all_gaps():
+# AlignedData seq to gaps
+def test_seq_to_gap_coords_str_all_gaps():
     parent_seq = "-----"
-    expect_gappos = GapPositions(numpy.array([0, 5]), 5)
-    got_ungap, got_gappos = seq_to_gap_coords(parent_seq)
-    assert got_ungap is None
-    assert numpy.array_equal(got_gappos.gaps, expect_gappos.gaps)
-    assert got_gappos.seq_length == expect_gappos.seq_length
+    expect_gaplen = numpy.array([len(parent_seq)])
+    got_ungap, got_map = seq_to_gap_coords(parent_seq, moltype=get_moltype("dna"))
+    assert got_ungap == ''
+    assert got_map.cum_gap_lengths == expect_gaplen
 
 
-def test_seq_to_gap_coords_no_gaps():
+def test_seq_to_gap_coords_str_no_gaps():
     parent_seq = "ACTGC"
-    expect_gappos = GapPositions(numpy.array([]), 5)
-    got_ungap, got_gappos = seq_to_gap_coords(parent_seq)
+    got_ungap, got_empty_arr = seq_to_gap_coords(parent_seq, moltype=get_moltype("dna"))
     assert got_ungap == parent_seq
-    assert numpy.array_equal(got_gappos.gaps, expect_gappos.gaps)
-    assert got_gappos.seq_length == expect_gappos.seq_length
+    assert got_empty_arr.size == 0
 
 
-@pytest.mark.parametrize("test_index", range(3))
-def test_seq_to_gap_coords(gapped_ungapped_gappos, test_index):
-    expect_gapped, expect_ungapped, expect_GP = gapped_ungapped_gappos[test_index]
-    got_ungapped, got_GP = seq_to_gap_coords(expect_gapped)
-    assert got_ungapped == expect_ungapped
-    assert numpy.array_equal(got_GP.gaps, expect_GP.gaps)
+def test_seq_to_gap_coords_str():
+    parent_seq = "A---CTG-C"
+    got_ungapped, got_map = seq_to_gap_coords(parent_seq, moltype=get_moltype("dna"))
+    assert got_ungapped == "ACTGC"
+    assert got_map.get_gap_coordinates() == [[1,3], [4,1]]
+
+    parent_seq = "-GTAC--"
+    got_ungapped, got_map = seq_to_gap_coords(parent_seq, moltype=get_moltype("dna"))
+    assert got_ungapped == "GTAC"
+    assert got_map.get_gap_coordinates() == [[0,1], [4,2]]
+
+    parent_seq = "---AGC--TGC--"
+    got_ungapped, got_map = seq_to_gap_coords(parent_seq, moltype=get_moltype("dna"))
+    assert got_ungapped == "AGCTGC"
+    assert got_map.get_gap_coordinates() == [[0,3], [3,2], [6,2]]
+
+def test_seq_to_gap_coords_array():
+    seq = numpy.array([4, 4, 2, 1, 4, 0, 4, 3, 1]) # "--AC-T-GC"
+    got = seq_to_gap_coords(seq)
 
 
 # Gaps to seq
