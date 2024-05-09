@@ -371,7 +371,7 @@ def test_seq_to_gap_coords_str_all_gaps():
     parent_seq = "-----"
     expect_gaplen = numpy.array([len(parent_seq)])
     got_ungap, got_map = seq_to_gap_coords(parent_seq, moltype=get_moltype("dna"))
-    assert got_ungap == ''
+    assert got_ungap == ""
     assert got_map.cum_gap_lengths == expect_gaplen
 
 
@@ -382,28 +382,33 @@ def test_seq_to_gap_coords_str_no_gaps():
     assert got_empty_arr.size == 0
 
 
-def test_seq_to_gap_coords_str():
-    parent_seq = "A---CTG-C"
-    got_ungapped, got_map = seq_to_gap_coords(parent_seq, moltype=get_moltype("dna"))
-    assert got_ungapped == "ACTGC"
-    assert got_map.get_gap_coordinates() == [[1,3], [4,1]]
-
-    parent_seq = "-GTAC--"
-    got_ungapped, got_map = seq_to_gap_coords(parent_seq, moltype=get_moltype("dna"))
-    assert got_ungapped == "GTAC"
-    assert got_map.get_gap_coordinates() == [[0,1], [4,2]]
-
-    parent_seq = "---AGC--TGC--"
-    got_ungapped, got_map = seq_to_gap_coords(parent_seq, moltype=get_moltype("dna"))
-    assert got_ungapped == "AGCTGC"
-    assert got_map.get_gap_coordinates() == [[0,3], [3,2], [6,2]]
-
-def test_seq_to_gap_coords_array():
-    seq = numpy.array([4, 4, 2, 1, 4, 0, 4, 3, 1]) # "--AC-T-GC"
-    got = seq_to_gap_coords(seq)
+@pytest.fixture
+def gap_seqs():
+    return [
+        ("A---CTG-C", [[1, 3], [4, 1]]),
+        ("-GTAC--", [[0, 1], [4, 2]]),
+        ("---AGC--TGC--", [[0, 3], [3, 2], [6, 2]]),
+    ]
 
 
-# Gaps to seq
+@pytest.mark.parametrize("i", range(3))  # range(len(gap_seqs()))
+def test_seq_to_gap_coords_str(gap_seqs, i):
+    seq, gap_coords = gap_seqs[i]
+    got_ungapped, got_map = seq_to_gap_coords(seq, moltype=get_moltype("dna"))
+    assert got_ungapped == seq.replace("-", "")
+    assert got_map.get_gap_coordinates() == gap_coords
+
+
+@pytest.mark.parametrize("i", range(3))  # range(len(gap_seqs()))
+def test_seq_to_gap_coords_arr(gap_seqs, i):
+    seq, gap_coords = gap_seqs[i]
+    alpha = get_moltype("dna").alphabets.degen_gapped
+    seq = seq_index(seq, alpha)  # convert to array repr
+    got_ungapped, got_map = seq_to_gap_coords(seq, moltype=get_moltype("dna"))
+    assert numpy.array_equal(got_ungapped, seq[seq != 4])  # gap_char = 4
+    assert got_map.get_gap_coordinates() == gap_coords
+
+
 @pytest.mark.parametrize("test_index", range(3))
 def test_gap_coords_to_seq(gapped_ungapped_gappos, test_index):
     expect_gapped, expect_ungapped, expect_GP = gapped_ungapped_gappos[test_index]

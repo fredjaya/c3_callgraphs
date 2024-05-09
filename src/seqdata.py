@@ -5,16 +5,16 @@ from typing import Iterator, Optional, Self, Union
 import numpy as numpy
 from cogent3 import get_moltype
 from cogent3.core.alphabet import CharAlphabet
+from cogent3.core.location import IndelMap
 from cogent3.core.moltype import MolType
 from cogent3.core.sequence import SeqView
 from ensembl_lite._aligndb import GapPositions
-from cogent3.core.location import IndelMap
 
-T = Union[str, bytes, numpy.ndarray]
+SeqTypes = Union[str, bytes, numpy.ndarray]
 
 
 @singledispatch
-def seq_index(seq: T, alphabet: CharAlphabet) -> numpy.ndarray:
+def seq_index(seq: SeqTypes, alphabet: CharAlphabet) -> numpy.ndarray:
     raise NotImplementedError(
         f"{seq_index.__name__} not implemented for type {type(seq)}"
     )
@@ -167,77 +167,64 @@ class SeqData:
         for seqid in seqids:
             yield self.get_seq_view(seqid=seqid)
 
-# TODO: single dispatch for arrays too
-def seq_to_gap_coords(seq: str, moltype: MolType) -> tuple[str, IndelMap]:
+
+@singledispatch
+def seq_to_gap_coords(
+    seq: str | numpy.ndarray, moltype: MolType
+) -> tuple[str, IndelMap]:
     """
     Takes a sequence with (or without) gaps and returns an ungapped sequence
     and records the position and length of gaps in the original parent sequence
-
-    Parameters
-    ----------
-    parent_seq : str
-        Sequence with gaps
-
-    Returns
-    -------
-    ungapped : str
-
-    gap_coords : GapPositions
     """
+    raise NotImplementedError(f"{seq} not implemented for type {type(seq)}")
+
+
+@seq_to_gap_coords.register
+def _(seq: str, moltype: MolType) -> tuple[str, IndelMap]:
     seq = moltype.make_seq(seq)
+    gap_char = moltype.gap
     indel_map, ungapped_seq = seq.parse_out_gaps()
 
     if indel_map.num_gaps == 0:
         return str(ungapped_seq), numpy.array([], dtype=int)
 
-    # for array dispatch, return IndelMap(gap_pos, cum_gap_lengths, parent_length=len(s))
     return str(ungapped_seq), indel_map
 
-    # Select gap character based on input seq type
-    # TODO: gap_char as optional arg
-    # TODO: should work with strings only, for now
-    # e.g. gap_char to be dealt by cogent3.Sequence()
-    if isinstance(parent_seq, str):
-        gap_char = moltype.gap
-    # dna.alphabets.degen_gapped.index(dna.gap)
-    # elif isinstance(parent_seq, numpy.ndarray):
-    #     gap_char = 
-    else:
-        raise ValueError
 
-    parent_len = len(parent_seq)
-    # seq with only gaps
-    if parent_seq == gap_char * parent_len:
-        return "", GapPositions(numpy.array([0, len(parent_seq)]), len(parent_seq))
+@seq_to_gap_coords.register
+def _(seq: numpy.ndarray, moltype: MolType) -> tuple[str, IndelMap]:
+    gap_char = moltype.alphabets.degen_gapped.index(moltype.gap)
+    # Create boolean array of gaps to get ungapped
+    gaps_bool = seq == gap_char
+    ungapped = seq[~gaps_bool]
 
-    # Remove gaps from seq
-    ungapped = parent_seq.replace(gap_char, "")
+    parent_len = len(seq)
+    in_gap = False
+    parent_coords = []
+    start = 0
+    for i, gapped in enumerate(gaps_bool):
+        if gapped and not in_gap:
+            start = i
+            in_gap = True
+        if not gapped and in_gap:
+            parent_coords.append([start, i])
+            in_gap = False
+        if gapped and i == parent_len - 1:
+            # End of the sequence
+            parent_coords.append([start, i + 1])
 
-    # seq with no gaps
-    if len(ungapped) == parent_len:
-        return parent_seq, GapPositions(numpy.array([]), parent_len)
+    # Format for IndelMap
+    parent_coords = numpy.array(parent_coords)
+    gap_lengths = numpy.array([end - start for start, end in parent_coords])
+    cum_lengths = gap_lengths.cumsum()
+    # Get gap start positions in sequence coords
+    gap_pos = parent_coords.T[0] - numpy.append(0, cum_lengths[:-1, numpy.newaxis])
 
-    # iterate over positions
-    # TODO: See parse_out_gaps() for regex approach to this, later
-    # Get from cogent3/refactor when ready
-    gap_start = False
-    coords = []
-    for pos, i in enumerate(parent_seq):
-        if i == gap_char:
-            if gap_start is False:
-                # record start pos of gap
-                gap_start = pos
-            if pos == parent_len - 1:
-                # seq ends with a gap
-                gap_len = pos - gap_start + 1
-                coords.append([gap_start, gap_len])
-        elif gap_start is not False:
-            # End gap segment
-            gap_len = pos - gap_start
-            coords.append([gap_start, gap_len])
-            gap_start = False  # reset
+    indel_map = IndelMap(
+        gap_pos=gap_pos, cum_gap_lengths=cum_lengths, parent_length=parent_len
+    )
 
-    return ungapped, GapPositions(numpy.array(coords), parent_len)
+    return ungapped, indel_map
 
 
 def gap_coords_to_seq(ungapped_seq: str, gap_positions: GapPositions) -> str:
