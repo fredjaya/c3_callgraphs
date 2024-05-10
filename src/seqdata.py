@@ -198,6 +198,10 @@ def _(seq: numpy.ndarray, moltype: MolType) -> tuple[str, IndelMap]:
     gaps_bool = seq == gap_char
     ungapped = seq[~gaps_bool]
 
+    # no gaps in seq
+    if numpy.array_equal(ungapped, seq):
+        return ungapped, numpy.array([], dtype=int)
+
     parent_len = len(seq)
     in_gap = False
     parent_coords = []

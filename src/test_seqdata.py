@@ -382,6 +382,22 @@ def test_seq_to_gap_coords_str_no_gaps():
     assert got_empty_arr.size == 0
 
 
+def test_seq_to_gap_coords_arr_all_gaps():
+    alpha = get_moltype("dna").alphabets.degen_gapped
+    parent_seq = seq_index("-----", alpha)
+    got_ungap, got_map = seq_to_gap_coords(parent_seq, moltype=get_moltype("dna"))
+    assert got_ungap.size == 0
+    assert got_map.get_gap_coordinates() == [[0, 5]]
+
+
+def test_seq_to_gap_coords_arr_no_gaps():
+    alpha = get_moltype("dna").alphabets.degen_gapped
+    parent_seq = seq_index("ACTGC", alpha)
+    got_ungap, got_empty_arr = seq_to_gap_coords(parent_seq, moltype=get_moltype("dna"))
+    assert numpy.array_equal(got_ungap, parent_seq)
+    assert got_empty_arr.size == 0
+
+
 @pytest.fixture
 def gap_seqs():
     return [
